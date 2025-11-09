@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Learn&Earn — Animated Prototype</title>
+<title>Learn&Earn</title>
 <style>
   :root{
     --bg:#efe8ff;
     --ink:#231a44;
-    --grad-a:#7b8cff; /* blue */
-    --grad-b:#c48aff; /* purple */
+    --grad-a:#7b8cff;
+    --grad-b:#c48aff;
     --ring:#cbb3ff;
     --lavender: #e6d1ff;
   }
@@ -23,8 +23,6 @@
     overflow-x:hidden;
     position:relative;
   }
-
-  /* ===== LAVENDER FLOWERS ===== */
   .lavender-flowers {
     position: fixed;
     top: 0;
@@ -41,9 +39,7 @@
     height: 40px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--lavender) 0%, transparent 70%);
-    box-shadow: 
-      0 0 20px var(--lavender),
-      0 0 40px var(--grad-b);
+    box-shadow: 0 0 20px var(--lavender), 0 0 40px var(--grad-b);
   }
   .flower::before,
   .flower::after {
@@ -54,14 +50,8 @@
     background: radial-gradient(circle, var(--lavender) 0%, transparent 70%);
     border-radius: 50%;
   }
-  .flower::before {
-    top: -10px;
-    left: 5px;
-  }
-  .flower::after {
-    top: 5px;
-    right: -10px;
-  }
+  .flower::before { top: -10px; left: 5px; }
+  .flower::after { top: 5px; right: -10px; }
   .flower:nth-child(1) { top: 10%; right: 5%; width: 60px; height: 60px; }
   .flower:nth-child(2) { top: 25%; right: 15%; width: 45px; height: 45px; }
   .flower:nth-child(3) { top: 40%; right: 8%; width: 55px; height: 55px; }
@@ -71,8 +61,6 @@
   .flower:nth-child(7) { top: 35%; left: 15%; width: 55px; height: 55px; }
   .flower:nth-child(8) { top: 55%; left: 8%; width: 40px; height: 40px; }
   .flower:nth-child(9) { top: 80%; left: 20%; width: 50px; height: 50px; }
-
-  /* ===== BACKGROUND BUBBLES ===== */
   .bg{
     position:fixed; inset:-10% -10% -10% -10%;
     z-index:-2; pointer-events:none; overflow:hidden;
@@ -85,19 +73,16 @@
     opacity:.22; filter:blur(6px);
     animation: drift linear infinite;
   }
-  /* sizes */
   .bxs{width:120px;height:120px}
   .bsm{width:180px;height:180px}
   .bmd{width:260px;height:260px}
   .blg{width:380px;height:380px}
   .bxl{width:520px;height:520px}
-  /* paths (slightly different angles) */
   @keyframes drift{
     0%   { transform:translate3d(var(--x0),var(--y0),0) scale(1) }
     50%  { transform:translate3d(var(--x50),var(--y50),0) scale(1.03) }
     100% { transform:translate3d(var(--x100),var(--y100),0) scale(1) }
   }
-  /* individual bubbles */
   .b1{ --x0:-10vw; --y0:5vh; --x50:10vw; --y50:-2vh; --x100:30vw; --y100:10vh; animation-duration:23s}
   .b2{ --x0:70vw; --y0:-8vh; --x50:55vw; --y50:8vh; --x100:40vw; --y100:0vh; animation-duration:28s}
   .b3{ --x0:10vw; --y0:60vh; --x50:25vw; --y50:50vh; --x100:45vw; --y100:55vh; animation-duration:32s}
@@ -106,8 +91,6 @@
   .b6{ --x0:50vw; --y0:-14vh; --x50:60vw; --y50:-2vh; --x100:72vw; --y100:8vh; animation-duration:34s}
   .b7{ --x0:82vw; --y0:20vh; --x50:88vw; --y50:40vh; --x100:92vw; --y100:18vh; animation-duration:29s}
   .b8{ --x0:35vw; --y0:90vh; --x50:30vw; --y50:70vh; --x100:25vw; --y100:88vh; animation-duration:36s}
-
-  /* ===== GENERAL UI ===== */
   .wrap{max-width:1100px;margin-inline:auto;padding:24px}
   .row{display:flex;gap:16px;flex-wrap:wrap}
   .col{flex:1 1 320px}
@@ -115,7 +98,6 @@
   .right{margin-left:auto}
   .center{text-align:center}
   .divider{height:1px;background:#e6dcff;margin:16px 0}
-
   .btn{
     appearance:none;border:0;border-radius:14px;padding:12px 18px;
     background:linear-gradient(135deg,var(--grad-a),var(--grad-b));
@@ -134,7 +116,6 @@
   .iconBtn:hover{transform:translateY(-1px); box-shadow:0 8px 20px #7c3aed20}
   .badge{background:#efe8ff;border:1px solid #e0d2ff;padding:4px 8px;border-radius:999px;font-weight:700}
   .pill{display:inline-flex;align-items:center;gap:8px;padding:.35rem .7rem;border-radius:999px;background:#f2ecff;color:#3b2a6d;font-weight:700}
-
   .card{
     background:linear-gradient(#ffffffcc,#ffffffcc),
                radial-gradient(600px 400px at 80% -20%, #b49bff22 0, transparent 60%),
@@ -145,7 +126,6 @@
     animation:pop .5s cubic-bezier(.2,.8,.2,1);
   }
   @keyframes pop{from{transform:scale(.97);opacity:0} to{transform:scale(1);opacity:1}}
-
   .input, select, textarea{
     width:100%;padding:12px 14px;border-radius:12px;border:2px solid #e5dbff;background:#fff;
     outline:none; font:inherit; color:var(--ink); transition:border .15s ease, box-shadow .15s ease, transform .08s ease;
@@ -155,8 +135,6 @@
   table{width:100%;border-collapse:collapse}
   th,td{padding:10px 12px;border-bottom:1px dashed #e8dcff;text-align:left}
   tr:hover td{background:#fbf9ff}
-
-  /* Nav */
   nav{
     position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#efe8fff2,#efe8ffea 60%, transparent);
     border-bottom:1px solid #e6dcff; backdrop-filter: blur(6px);
@@ -170,8 +148,6 @@
     background:linear-gradient(135deg,var(--grad-a),var(--grad-b)); box-shadow:0 8px 18px #8b5cf633;
     border:2px solid #ffffffcc; outline:2px solid #e6dcff;
   }
-
-  /* Notifications Bell */
   .notification-bell {
     position: relative;
     cursor: pointer;
@@ -251,25 +227,17 @@
     color: white;
     border-radius: 16px 16px 0 0;
   }
-
-  /* Tabs */
   .tabs{display:flex;gap:8px;flex-wrap:wrap}
   .tab{padding:10px 14px;border-radius:12px;cursor:pointer;border:2px solid #decdff;background:#fff;color:var(--ink);font-weight:800;transition:transform .12s ease}
   .tab:hover{transform:translateY(-1px)}
   .tab.active{background:linear-gradient(135deg,var(--grad-a),var(--grad-b));color:#fff;border-color:transparent;box-shadow:0 10px 22px #8b5cf633}
-
-  /* Section show/hide */
   .view{opacity:0; transform:translateY(10px); transition:opacity .38s ease, transform .38s ease}
   .view.show{opacity:1; transform:translateY(0)}
   .hide{display:none !important}
-
-  /* Status tags */
   .status{font-weight:800}
   .status.open{color:#2563eb}
   .status.progress{color:#f59e0b}
   .status.done{color:#059669}
-
-  /* Chat */
   .chat{
     display:flex;flex-direction:column;gap:10px;height:280px;overflow:auto;background:#fff;border:2px solid #e6dcff;border-radius:16px;padding:12px
   }
@@ -277,12 +245,9 @@
   .me{background:#ede7ff;margin-left:auto}
   .them{background:#f7f4ff}
   @keyframes msgUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-  /* Modal (Auth) */
   .modal{position:fixed;inset:0;display:grid;place-items:center;background:#1a103080;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:20}
   .modal.show{opacity:1;pointer-events:auto}
   .sheet{width:min(560px,92vw)}
-
   footer{padding:40px 0 80px;color:#6b5aa5}
   .icon{width:22px;height:22px;display:inline-block;vertical-align:-4px}
   .icon24{width:24px;height:24px}
@@ -290,7 +255,6 @@
 </style>
 </head>
 <body>
-
 <!-- LAVENDER FLOWERS -->
 <div class="lavender-flowers" aria-hidden="true">
   <div class="flower"></div>
@@ -303,7 +267,6 @@
   <div class="flower"></div>
   <div class="flower"></div>
 </div>
-
 <!-- BUBBLE BACKGROUND -->
 <div class="bg" aria-hidden="true">
   <span class="bubble blg b1"></span>
@@ -315,7 +278,6 @@
   <span class="bubble bsm b7"></span>
   <span class="bubble bxl b8"></span>
 </div>
-
 <!-- NAV -->
 <nav>
   <div class="navwrap">
@@ -327,7 +289,6 @@
       </svg>
       <span>Learn&Earn</span>
     </div>
-
     <div class="right toolbar" id="authBtns">
       <div class="notification-bell" id="notificationBell">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -339,7 +300,6 @@
       <button class="btn ghost" id="loginOpen">Login</button>
       <button class="btn" id="signupOpen">Sign Up</button>
     </div>
-
     <div class="right toolbar hide" id="userMenu">
       <div class="notification-bell" id="notificationBellAuth">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -353,15 +313,12 @@
       <div id="avatar" class="avatar">U</div>
       <button class="btn ghost" id="logout">Logout</button>
     </div>
-
-    <!-- Notifications Dropdown -->
     <div class="notifications-dropdown" id="notificationsDropdown">
       <div class="notification-header">Notifications</div>
-      <div id="notificationsList"></div>
+      <div id="notificationsList">No notifications</div>
     </div>
   </div>
 </nav>
-
 <!-- HOME -->
 <section id="home" class="wrap view show">
   <div class="row">
@@ -372,9 +329,7 @@
       </p>
       <div class="toolbar" style="margin-top:14px">
         <button class="btn" id="getStarted">Get Started</button>
-        <button class="btn soft" id="viewDemo">View Demo</button>
       </div>
-      <div style="margin-top:16px" class="muted">Data is stored locally in your browser for this demo. Notifications sent to your email.</div>
     </div>
     <div class="col card">
       <h3>Live counters</h3>
@@ -386,25 +341,23 @@
     </div>
   </div>
 </section>
-
 <!-- ROLE SELECT -->
 <section id="role" class="wrap view hide">
   <div class="row">
     <div class="col card">
       <div class="pill"><svg class="icon"><use href="#ico-briefcase"></use></svg> Company</div>
       <h2 style="margin-top:8px">I’m a Company</h2>
-      <p class="muted">Hire talented students for quick, creative, affordable projects. Post your task, set your deadline and budget — get fresh ideas fast.</p>
+      <p class="muted">Hire talented students for quick, creative, affordable projects.</p>
       <button class="btn" id="chooseCompany"><svg class="icon" style="margin-right:6px"><use href="#ico-doc-plus"></use></svg> Continue as Company</button>
     </div>
     <div class="col card">
       <div class="pill"><svg class="icon"><use href="#ico-cap"></use></svg> Student</div>
       <h2 style="margin-top:8px">I’m a Student</h2>
-      <p class="muted">Work with real companies, gain experience, build your portfolio and earn rewards for your skills.</p>
+      <p class="muted">Work with real companies, gain experience, build your portfolio and earn.</p>
       <button class="btn" id="chooseStudent"><svg class="icon" style="margin-right:6px"><use href="#ico-search-doc"></use></svg> Continue as Student</button>
     </div>
   </div>
 </section>
-
 <!-- COMPANY -->
 <section id="company" class="wrap view hide">
   <div class="toolbar" style="margin-bottom:14px">
@@ -414,15 +367,12 @@
       <button class="tab" data-ctab="c-projects"><svg class="icon"><use href="#ico-folder"></use></svg> My Projects</button>
       <button class="tab" data-ctab="c-chat"><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat</button>
       <button class="tab" data-ctab="c-leader"><svg class="icon"><use href="#ico-leader"></use></svg> Leaderboard</button>
-      <button class="tab" data-ctab="c-profile"><svg class="icon"><use href="#ico-briefcase"></use></svg> Company</button>
     </div>
   </div>
-
-  <!-- Publish -->
   <div id="c-post" class="card">
     <h2><svg class="icon"><use href="#ico-doc-plus"></use></svg> Publish a Project</h2>
     <div class="row" style="margin-top:10px">
-      <div class="col"><label>Title</label><input id="pTitle" class="input" placeholder="e.g., Design a Diwali poster"/></div>
+      <div class="col"><label>Title</label><input id="pTitle" class="input" placeholder="e.g., Design a poster"/></div>
       <div class="col"><label>Budget (₹)</label><input id="pBudget" type="number" class="input" placeholder="500"/></div>
       <div class="col"><label>Deadline</label><input id="pDue" type="date" class="input"/></div>
       <div class="col"><label>Category</label>
@@ -433,16 +383,13 @@
     </div>
     <div style="margin-top:10px">
       <label>Description</label>
-      <textarea id="pDesc" class="input" placeholder="What do you need? Requirements, style, references…"></textarea>
+      <textarea id="pDesc" class="input" placeholder="What do you need?"></textarea>
     </div>
     <div class="toolbar" style="margin-top:10px">
-      <button class="iconBtn" title="Attach file"><svg class="icon24"><use href="#ico-clip"></use></svg></button>
-      <span class="muted">Attachment (demo only)</span>
+      <span class="muted">Submit files via MEGA link</span>
       <button class="btn right" id="publishBtn"><svg class="icon" style="margin-right:6px"><use href="#ico-submit"></use></svg> Publish</button>
     </div>
   </div>
-
-  <!-- My Projects -->
   <div id="c-projects" class="card hide">
     <h2><svg class="icon"><use href="#ico-folder"></use></svg> My Projects</h2>
     <div class="toolbar" style="margin:10px 0">
@@ -453,38 +400,19 @@
       <tr><th>Title</th><th>Category</th><th>Budget</th><th>Deadline</th><th>Status</th><th>Applicants</th><th>Actions</th></tr>
     </thead><tbody></tbody></table>
   </div>
-
-  <!-- Chat -->
   <div id="c-chat" class="card hide">
-    <h2><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat with Helpers</h2>
+    <h2><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat</h2>
     <div class="chat" id="cChat"></div>
     <div class="toolbar" style="margin-top:10px">
       <input id="cMsg" class="input" placeholder="Type a message…"/>
       <button class="btn" id="cSend">Send</button>
     </div>
   </div>
-
-  <!-- Leaderboard -->
   <div id="c-leader" class="card hide">
-    <h2><svg class="icon"><use href="#ico-leader"></use></svg> Leaderboard (Top Students)</h2>
+    <h2><svg class="icon"><use href="#ico-leader"></use></svg> Leaderboard</h2>
     <table id="cLeader"><thead><tr><th>#</th><th>Student</th><th>XP</th><th>Done</th></tr></thead><tbody></tbody></table>
   </div>
-
-  <!-- Company Profile -->
-  <div id="c-profile" class="card hide">
-    <h2><svg class="icon"><use href="#ico-briefcase"></use></svg> Company Details</h2>
-    <div class="row" style="margin-top:10px">
-      <div class="col"><label>Company Name</label><input id="coName" class="input" placeholder="Your company"/></div>
-      <div class="col"><label>Industry</label><input id="coIndustry" class="input" placeholder="E.g., Digital Marketing"/></div>
-      <div class="col"><label>Location</label><input id="coLoc" class="input" placeholder="City, Country"/></div>
-    </div>
-    <div style="margin-top:10px"><label>About</label><textarea id="coAbout" class="input" placeholder="Short description…"></textarea></div>
-    <div class="toolbar" style="margin-top:10px">
-      <button class="btn" id="saveCompany">Save</button>
-    </div>
-  </div>
 </section>
-
 <!-- STUDENT -->
 <section id="student" class="wrap view hide">
   <div class="toolbar" style="margin-bottom:14px">
@@ -494,11 +422,8 @@
       <button class="tab" data-stab="s-my"><svg class="icon"><use href="#ico-folder"></use></svg> My Applications</button>
       <button class="tab" data-stab="s-chat"><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat</button>
       <button class="tab" data-stab="s-leader"><svg class="icon"><use href="#ico-leader"></use></svg> Leaderboard</button>
-      <button class="tab" data-stab="s-profile"><svg class="icon"><use href="#ico-profile"></use></svg> My Profile</button>
     </div>
   </div>
-
-  <!-- Browse -->
   <div id="s-browse" class="card">
     <div class="toolbar">
       <h2 style="display:flex;align-items:center;gap:8px"><svg class="icon"><use href="#ico-search-doc"></use></svg> Browse Projects</h2>
@@ -509,50 +434,25 @@
       <tr><th>Title</th><th>Company</th><th>Category</th><th>Budget</th><th>Due</th><th>Status</th><th></th></tr>
     </thead><tbody></tbody></table>
   </div>
-
-  <!-- My applications -->
   <div id="s-my" class="card hide">
     <h2><svg class="icon"><use href="#ico-folder"></use></svg> My Applications</h2>
     <table id="sMy"><thead>
       <tr><th>Project</th><th>Company</th><th>Status</th><th>Action</th></tr>
     </thead><tbody></tbody></table>
   </div>
-
-  <!-- Chat -->
   <div id="s-chat" class="card hide">
-    <h2><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat with Company</h2>
+    <h2><svg class="icon"><use href="#ico-msg-arrow"></use></svg> Chat</h2>
     <div class="chat" id="sChat"></div>
     <div class="toolbar" style="margin-top:10px">
       <input id="sMsg" class="input" placeholder="Type a message…"/>
       <button class="btn" id="sSend">Send</button>
     </div>
   </div>
-
-  <!-- Leaderboard -->
   <div id="s-leader" class="card hide">
     <h2><svg class="icon"><use href="#ico-leader"></use></svg> Leaderboard</h2>
     <table id="sLeader"><thead><tr><th>#</th><th>Student</th><th>XP</th><th>Done</th></tr></thead><tbody></tbody></table>
   </div>
-
-  <!-- Profile -->
-  <div id="s-profile" class="card hide">
-    <h2><svg class="icon"><use href="#ico-profile"></use></svg> Student Details</h2>
-    <div class="row" style="margin-top:10px">
-      <div class="col"><label>Real Name</label><input id="stName" class="input" placeholder="Your name"/></div>
-      <div class="col"><label>School / Class</label><input id="stSchool" class="input" placeholder="Class 9 — School"/></div>
-      <div class="col"><label>Location</label><input id="stLoc" class="input" placeholder="City, Country"/></div>
-    </div>
-    <div class="row" style="margin-top:10px">
-      <div class="col"><label>Skills</label><input id="stSkills" class="input" placeholder="Design, Content, Web…"/></div>
-      <div class="col"><label>Bio</label><input id="stBio" class="input" placeholder="Short bio"/></div>
-    </div>
-    <div class="toolbar" style="margin-top:10px">
-      <button class="btn" id="saveStudent">Save</button>
-      <span class="muted right" id="stStats"></span>
-    </div>
-  </div>
 </section>
-
 <!-- AUTH MODAL -->
 <div class="modal" id="auth">
   <div class="sheet card">
@@ -576,609 +476,391 @@
         <button class="btn soft" id="doLogin">Login</button>
       </div>
     </div>
-    <div class="muted" style="margin-top:8px">Demo only — credentials are stored locally in your browser. Notifications sent to your email.</div>
   </div>
 </div>
-
 <footer class="wrap center">
   <div class="divider"></div>
-  <div>© Learn&Earn — Prototype. “Connect. Learn. Earn.”</div>
+  <div>© Learn&Earn — “Connect. Learn. Earn.”</div>
 </footer>
-
-<!-- ===== ICONS (inline, gradient) ===== -->
 <svg width="0" height="0" style="position:absolute">
   <defs><linearGradient id="g" x1="0" x2="1" y1="1" y2="0"><stop offset="0%" stop-color="var(--grad-a)"/><stop offset="100%" stop-color="var(--grad-b)"/></linearGradient></defs>
-
-  <!-- Your set -->
   <symbol id="ico-clip" viewBox="0 0 24 24"><path fill="url(#g)" d="M7 13.5 14.5 6a4.24 4.24 0 1 1 6 6L11 21.5a6.36 6.36 0 0 1-9-9L9.5 5.5"/></symbol>
   <symbol id="ico-submit" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="7" ry="7" fill="none" stroke="url(#g)" stroke-width="2.2"/><text x="12" y="14.5" text-anchor="middle" font-size="6.4" font-family="Inter" fill="url(#g)" font-weight="800">SUBMIT</text></symbol>
   <symbol id="ico-msg-arrow" viewBox="0 0 24 24"><path fill="url(#g)" d="M3 4h18a2 2 0 0 1 2 2v8a5 5 0 0 1-5 5H11l-4.5 3v-3H5a4 4 0 0 1-4-4V6a2 2 0 0 1 2-2z"/><path fill="#fff" d="M10 12h5l-2.5-3 1-1 4 4-4 4-1-1 2.5-3H10z"/></symbol>
   <symbol id="ico-doc-plus" viewBox="0 0 24 24"><path fill="url(#g)" d="M7 2h7l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm7 6h5l-5-5v5Z"/><path fill="url(#g)" d="M12 11v-3h2v3h3v2h-3v3h-2v-3H9v-2h3Z"/></symbol>
   <symbol id="ico-search-doc" viewBox="0 0 24 24"><path fill="url(#g)" d="M7 2h7l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm7 6h5l-5-5v5Z"/><path fill="url(#g)" d="M9.5 11a3.5 3.5 0 1 0 2.83 5.6l2.27 2.27 1.4-1.4-2.27-2.27A3.5 3.5 0 0 0 9.5 11Z"/></symbol>
   <symbol id="ico-leader" viewBox="0 0 24 24"><path fill="url(#g)" d="M4 20h16v2H4v-2Zm2-6h3v6H6v-6Zm5-8h3v14h-3V6Zm5 4h3v10h-3V10Z"/><path fill="url(#g)" d="M12 3l2 3h-4l2-3z"/></symbol>
-  <symbol id="ico-profile" viewBox="0 0 24 24"><path fill="url(#g)" d="M3 5h18a2 2 0 0 1 2 2v8a5 5 0 0 1-5 5H11l-4.5 3v-3H5a4 4 0 0 1-4-4V7a2 2 0 0 1 2-2z"/><circle cx="12" cy="11" r="3.2" fill="#fff"/><path fill="#fff" d="M7.8 17.6c.9-1.9 2.6-3 4.2-3s3.3 1.1 4.2 3"/></symbol>
-
-  <!-- extra basics -->
   <symbol id="ico-briefcase" viewBox="0 0 24 24"><path fill="url(#g)" d="M9 3h6a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9a2 2 0 0 1 2-2h2V5a2 2 0 0 1 2-2Zm6 4V5H9v2h6Z"/></symbol>
   <symbol id="ico-cap" viewBox="0 0 24 24"><path fill="url(#g)" d="m12 3 10 5-10 5L2 8l10-5Zm7 8v5c0 2.8-3.6 5-7 5s-7-2.2-7-5v-5l7 3.5L19 11Z"/></symbol>
   <symbol id="ico-folder" viewBox="0 0 24 24"><path fill="url(#g)" d="M10 4h2l2 2h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6Z"/></symbol>
 </svg>
 
+<!-- ✅ FIXED FIREBASE SDK - NO TRAILING SPACES -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
-/* ===== UTIL + STORE ===== */
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
-const store = {
-  get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def }},
-  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
-};
-const uid = ()=>'id_'+Math.random().toString(36).slice(2,9);
-const todayPlus = d => new Date(Date.now()+d*86400000).toISOString().slice(0,10);
-
-/* Seed data */
-if(!store.get('users')) store.set('users',[]);
-if(!store.get('projects')) store.set('projects',[
-  {id:uid(), title:"Poster for GreenTech", budget:300, due:todayPlus(3), cat:"Design", desc:"A4 poster for social media", status:"Open", companyId:null, applicants:[]},
-  {id:uid(), title:"Blog on Solar", budget:400, due:todayPlus(5), cat:"Content", desc:"600 words, SEO", status:"Open", companyId:null, applicants:[]},
-  {id:uid(), title:"Survey Data Cleanup", budget:250, due:todayPlus(4), cat:"Data Entry", desc:"Normalize CSV", status:"Open", companyId:null, applicants:[]},
-]);
-if(!store.get('messages')) store.set('messages',[]);
-if(!store.get('notifications')) store.set('notifications',[]);
-
-/* ===== NOTIFICATIONS ===== */
-function addNotification(title, message, type = 'info') {
-  const notifications = store.get('notifications', []);
-  const notification = {
-    id: uid(),
-    title,
-    message,
-    type,
-    read: false,
-    timestamp: Date.now(),
-    emailSent: true // Simulating email notification
+  const firebaseConfig = {
+    apiKey: "AIzaSyA48QxlLR3ZWaoBca1Nd3fYW6cO4AkKnfU",
+    authDomain: "learn-earn-6ee64.firebaseapp.com",
+    projectId: "learn-earn-6ee64",
+    storageBucket: "learn-earn-6ee64.firebasestorage.app",
+    messagingSenderId: "1012222597953",
+    appId: "1:1012222597953:web:9bc28baa9194aa5b529fc0"
   };
-  notifications.unshift(notification);
-  store.set('notifications', notifications);
-  updateNotificationBadge();
-}
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-function updateNotificationBadge() {
-  const notifications = store.get('notifications', []).filter(n => !n.read);
-  const count = notifications.length;
-  
-  const badge1 = $('#notificationCount');
-  const badge2 = $('#notificationCountAuth');
-  
-  if (count > 0) {
-    badge1.textContent = count > 9 ? '9+' : count;
-    badge2.textContent = count > 9 ? '9+' : count;
-    badge1.style.display = 'flex';
-    badge2.style.display = 'flex';
-  } else {
-    badge1.style.display = 'none';
-    badge2.style.display = 'none';
-  }
-}
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+  const todayPlus = d => new Date(Date.now() + d * 86400000).toISOString().slice(0, 10);
 
-function markNotificationAsRead(id) {
-  const notifications = store.get('notifications', []);
-  const notification = notifications.find(n => n.id === id);
-  if (notification) {
-    notification.read = true;
-    store.set('notifications', notifications);
-    updateNotificationBadge();
-  }
-}
+  let currentUser = null;
+  let currentChatProjectId = null;
+  let chatUnsub = null;
+  let leaderUnsub = null;
 
-function renderNotifications() {
-  const notifications = store.get('notifications', []);
-  const list = $('#notificationsList');
-  
-  if (notifications.length === 0) {
-    list.innerHTML = '<div class="notification-item" style="text-align:center;padding:20px;color:#888;">No notifications</div>';
-    return;
+  function setAuthedUI(user) {
+    $('#authBtns').classList.add('hide');
+    $('#userMenu').classList.remove('hide');
+    $('#avatar').textContent = (user.username?.[0] || 'U').toUpperCase();
+    $('#roleBadge').textContent = user.role === 'company' ? 'Company' : 'Student';
   }
-  
-  list.innerHTML = '';
-  notifications.slice(0, 20).forEach(notification => {
-    const item = document.createElement('div');
-    item.className = `notification-item ${notification.read ? '' : 'unread'}`;
-    item.innerHTML = `
-      <div>${notification.title}</div>
-      <div style="font-size:14px;margin-top:4px;color:#666;">${notification.message}</div>
-      <div class="notification-time">${new Date(notification.timestamp).toLocaleDateString()}</div>
-    `;
-    item.onclick = () => {
-      markNotificationAsRead(notification.id);
-      // In real app, would navigate to relevant section
+  function setLoggedOutUI() {
+    $('#userMenu').classList.add('hide');
+    $('#authBtns').classList.remove('hide');
+  }
+  function show(id) {
+    ['home','role','company','student'].forEach(sec => {
+      const el = $(`#${sec}`);
+      if (!el) return;
+      if (sec === id) {
+        el.classList.remove('hide');
+        requestAnimationFrame(() => el.classList.add('show'));
+      } else {
+        el.classList.remove('show');
+        setTimeout(() => el.classList.add('hide'), 250);
+      }
+    });
+    updateCounters();
+  }
+
+  async function updateCounters() {
+    const [pSnap, uSnap] = await Promise.all([
+      db.collection('projects').get(),
+      db.collection('users').get()
+    ]);
+    const open = pSnap.docs.filter(d => d.data().status === 'Open').length;
+    const students = uSnap.docs.filter(d => d.data().role === 'student').length;
+    const companies = uSnap.docs.filter(d => d.data().role === 'company').length;
+    $('#kOpen').textContent = open;
+    $('#kStudents').textContent = students;
+    $('#kCompanies').textContent = companies;
+  }
+
+  const modal = $('#auth');
+  $('#getStarted').onclick = () => modal.classList.add('show');
+  $('#loginOpen').onclick = () => modal.classList.add('show');
+  $('#signupOpen').onclick = () => modal.classList.add('show');
+  $('#closeAuth').onclick = () => modal.classList.remove('show');
+
+  $('#doSignup').onclick = async () => {
+    const email = $('#suEmail').value.trim();
+    const pass = $('#suPass').value;
+    const username = $('#suUser').value.trim();
+    if (!email || !pass || !username) return alert('Fill all fields.');
+    try {
+      const cred = await auth.createUserWithEmailAndPassword(email, pass);
+      await cred.user.sendEmailVerification();
+      await db.collection('users').doc(cred.user.uid).set({ username, email, role: null, xp: 0, done: 0 });
+      modal.classList.remove('show');
+      alert('Account created! Please verify your email.');
+    } catch (err) { alert(err.message); }
+  };
+
+  $('#doLogin').onclick = async () => {
+    const email = $('#liEmail').value.trim();
+    const pass = $('#liPass').value;
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+      modal.classList.remove('show');
+    } catch (err) { alert(err.message); }
+  };
+
+  function promptEmailVerification() {
+    if (!auth.currentUser.emailVerified) {
+      if (confirm('Please verify your email. Resend verification?')) {
+        auth.currentUser.sendEmailVerification()
+          .then(() => alert('Verification email sent!'))
+          .catch(err => alert(err.message));
+      }
+    }
+  }
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      const doc = await db.collection('users').doc(user.uid).get();
+      if (doc.exists) {
+        currentUser = { id: user.uid, ...doc.data() };
+        if (!user.emailVerified) promptEmailVerification();
+      } else {
+        const username = user.email.split('@')[0];
+        await db.collection('users').doc(user.uid).set({ username, email: user.email, role: null, xp: 0, done: 0 });
+        currentUser = { id: user.uid, username, email: user.email, role: null, xp: 0, done: 0 };
+      }
+      setAuthedUI(currentUser);
+      if (currentUser.role) routeByRole(currentUser.role);
+      else show('role');
+    } else {
+      currentUser = null;
+      setLoggedOutUI();
+      show('home');
+    }
+  });
+
+  $('#logout').onclick = () => auth.signOut();
+  $('#goDash').onclick = () => {
+    if (currentUser?.role) routeByRole(currentUser.role);
+  };
+
+  $('#chooseCompany').onclick = async () => {
+    if (!currentUser) return modal.classList.add('show');
+    await db.collection('users').doc(currentUser.id).update({ role: 'company' });
+    currentUser.role = 'company';
+    setAuthedUI(currentUser);
+    routeByRole('company');
+  };
+  $('#chooseStudent').onclick = async () => {
+    if (!currentUser) return modal.classList.add('show');
+    await db.collection('users').doc(currentUser.id).update({ role: 'student' });
+    currentUser.role = 'student';
+    setAuthedUI(currentUser);
+    routeByRole('student');
+  };
+
+  $('#publishBtn').onclick = async () => {
+    const title = $('#pTitle').value.trim();
+    const budget = +$('#pBudget').value;
+    const due = $('#pDue').value || todayPlus(5);
+    const cat = $('#pCat').value;
+    const desc = $('#pDesc').value.trim();
+    if (!title || !budget || !desc) return alert('Fill all fields.');
+    await db.collection('projects').add({
+      title, budget, due, cat, desc, status: 'Open',
+      companyId: currentUser.id,
+      applicants: []
+    });
+    $('#pTitle').value = $('#pBudget').value = $('#pDesc').value = '';
+    alert('Project published!');
+    updateCounters();
+  };
+
+  async function drawBrowse() {
+    const [pSnap, uSnap] = await Promise.all([
+      db.collection('projects').where('status', '!=', 'Done').get(),
+      db.collection('users').get()
+    ]);
+    const userMap = {};
+    uSnap.forEach(doc => userMap[doc.id] = doc.data().username || 'Company');
+    const term = ($('#sSearch').value || '').toLowerCase();
+    const tbody = $('#sTable tbody');
+    tbody.innerHTML = '';
+    pSnap.forEach(doc => {
+      const p = { id: doc.id, ...doc.data() };
+      if (![p.title, p.cat].join(' ').toLowerCase().includes(term)) return;
+      const isApplied = p.applicants?.includes(currentUser.id);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.title}</td>
+        <td>${userMap[p.companyId]}</td>
+        <td>${p.cat}</td>
+        <td>₹${p.budget}</td>
+        <td>${p.due}</td>
+        <td class="status ${p.status === 'Open' ? 'open' : 'progress'}">${p.status}</td>
+        <td><button class="btn" ${isApplied ? 'disabled' : ''} onclick="apply('${p.id}')">${isApplied ? 'Applied' : 'Apply'}</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  $('#sSearch').oninput = drawBrowse;
+
+  window.apply = async (pid) => {
+    const ref = db.collection('projects').doc(pid);
+    const p = (await ref.get()).data();
+    if (!p.applicants.includes(currentUser.id)) {
+      p.applicants.push(currentUser.id);
+      p.status = 'In Progress';
+      await ref.update(p);
+      drawBrowse(); drawMyApps(); updateCounters();
+    }
+  };
+
+  async function drawMyApps() {
+    const [pSnap, uSnap] = await Promise.all([
+      db.collection('projects').where('applicants', 'array-contains', currentUser.id).get(),
+      db.collection('users').get()
+    ]);
+    const userMap = {};
+    uSnap.forEach(doc => userMap[doc.id] = doc.data().username || 'Company');
+    const tbody = $('#sMy tbody');
+    tbody.innerHTML = '';
+    pSnap.forEach(doc => {
+      const p = { id: doc.id, ...doc.data() };
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.title}</td>
+        <td>${userMap[p.companyId]}</td>
+        <td class="status ${p.status === 'Done' ? 'done' : 'progress'}">${p.status}</td>
+        <td>
+          <button class="btn soft" onclick="openStudentChat('${p.id}')">Chat</button>
+          ${p.status !== 'Done' ? `<button class="btn" onclick="submitProject('${p.id}')">Submit</button>` : '<span class="muted">Submitted</span>'}
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  window.submitProject = async (projectId) => {
+    const megaLink = prompt('Enter your MEGA file link:');
+    if (!megaLink?.trim()) return alert('Please enter a valid MEGA link.');
+    await db.collection('projects').doc(projectId).update({
+      megaLink: megaLink.trim(),
+      status: 'Done'
+    });
+    await db.collection('users').doc(currentUser.id).update({
+      xp: firebase.firestore.FieldValue.increment(100),
+      done: firebase.firestore.FieldValue.increment(1)
+    });
+    alert('Project submitted!');
+    drawMyApps();
+    updateCounters();
+  };
+
+  function setupLiveChat(projectId) {
+    if (chatUnsub) chatUnsub();
+    currentChatProjectId = projectId;
+    const box = $('#cChat').offsetParent ? $('#cChat') : $('#sChat');
+    chatUnsub = db.collection(`projects/${projectId}/messages`)
+      .orderBy('timestamp')
+      .onSnapshot(snap => {
+        box.innerHTML = '';
+        snap.forEach(doc => {
+          const msg = doc.data();
+          const div = document.createElement('div');
+          const mine = msg.senderId === currentUser.id;
+          div.className = 'msg ' + (mine ? 'me' : 'them');
+          div.innerHTML = `<b>${msg.senderName}:</b> ${msg.text}`;
+          box.appendChild(div);
+        });
+        box.scrollTop = box.scrollHeight;
+      });
+  }
+
+  async function sendMessage() {
+    if (!currentChatProjectId) return;
+    const text = ($('#cMsg')?.value || $('#sMsg')?.value || '').trim();
+    if (!text) return;
+    await db.collection(`projects/${currentChatProjectId}/messages`).add({
+      senderId: currentUser.id,
+      senderName: currentUser.username,
+      text,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    if ($('#cMsg')) $('#cMsg').value = '';
+    if ($('#sMsg')) $('#sMsg').value = '';
+  }
+
+  $('#cSend')?.addEventListener('click', sendMessage);
+  $('#sSend')?.addEventListener('click', sendMessage);
+
+  window.openStudentChat = (projectId) => {
+    $$('#student .tab')[2].click();
+    setupLiveChat(projectId);
+  };
+
+  async function drawCompanyProjects() {
+    const term = ($('#cSearch').value || '').toLowerCase();
+    const pSnap = await db.collection('projects').where('companyId', '==', currentUser.id).get();
+    const tbody = $('#cTable tbody');
+    tbody.innerHTML = '';
+    pSnap.forEach(doc => {
+      const p = { id: doc.id, ...doc.data() };
+      if (![p.title, p.cat].join(' ').toLowerCase().includes(term)) return;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.title}</td>
+        <td>${p.cat}</td>
+        <td>₹${p.budget}</td>
+        <td>${p.due}</td>
+        <td class="status ${p.status === 'Open' ? 'open' : p.status === 'In Progress' ? 'progress' : 'done'}">${p.status}</td>
+        <td>${p.applicants?.length || 0}</td>
+        <td>
+          <button class="btn soft" onclick="openCompanyChat('${p.id}')">Chat</button>
+          ${p.megaLink ? `<a href="${p.megaLink}" target="_blank" class="btn">View File</a>` : ''}
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  $('#cSearch').oninput = drawCompanyProjects;
+
+  window.openCompanyChat = (projectId) => {
+    $$('#company .tab')[2].click();
+    setupLiveChat(projectId);
+  };
+
+  function setupLiveLeaderboard(tableId) {
+    if (leaderUnsub) leaderUnsub();
+    const tbody = $(`#${tableId} tbody`);
+    leaderUnsub = db.collection('users')
+      .where('role', '==', 'student')
+      .orderBy('xp', 'desc')
+      .limit(10)
+      .onSnapshot(snap => {
+        tbody.innerHTML = '';
+        let rank = 1;
+        snap.forEach(doc => {
+          const u = doc.data();
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${rank++}</td><td>${u.username}</td><td>${u.xp || 0}</td><td>${u.done || 0}</td>`;
+          tbody.appendChild(tr);
+        });
+      });
+  }
+
+  $$('#company .tab').forEach(btn => {
+    btn.onclick = () => {
+      const tabId = btn.dataset.ctab;
+      $$('#company .tab').forEach(b => b.classList.toggle('active', b === btn));
+      ['c-post','c-projects','c-chat','c-leader'].forEach(id => {
+        $(`#${id}`)?.classList.toggle('hide', id !== tabId);
+      });
+      if (tabId === 'c-projects') drawCompanyProjects();
+      if (tabId === 'c-leader') setupLiveLeaderboard('cLeader');
     };
-    list.appendChild(item);
   });
-}
 
-/* ===== NOTIFICATION TRIGGERS ===== */
-// Trigger when project is published
-function onProjectPublished(project) {
-  addNotification(
-    'Project Published',
-    `Your project "${project.title}" has been published successfully!`,
-    'success'
-  );
-}
-
-// Trigger when student applies
-function onStudentApplied(project, student) {
-  addNotification(
-    'New Application',
-    `Student ${student.username} has applied to your project "${project.title}"`,
-    'info'
-  );
-  
-  // Student notification
-  addNotification(
-    'Application Submitted',
-    `Your application for "${project.title}" has been submitted successfully!`,
-    'success'
-  );
-}
-
-// Trigger when project status changes
-function onProjectStatusChange(project, status) {
-  if (status === 'Done') {
-    addNotification(
-      'Project Completed',
-      `Project "${project.title}" has been marked as completed!`,
-      'success'
-    );
-  } else if (status === 'In Progress') {
-    addNotification(
-      'Project Started',
-      `Project "${project.title}" is now in progress!`,
-      'info'
-    );
-  }
-}
-
-/* ===== VIEW SWITCH + COUNTERS ===== */
-function show(id){
-  ['home','role','company','student'].forEach(sec=>{
-    const el = document.getElementById(sec);
-    if(!el) return;
-    if(sec===id){ el.classList.remove('hide'); requestAnimationFrame(()=>el.classList.add('show')); }
-    else { el.classList.remove('show'); setTimeout(()=>el.classList.add('hide'), 250); }
+  $$('#student .tab').forEach(btn => {
+    btn.onclick = () => {
+      const tabId = btn.dataset.stab;
+      $$('#student .tab').forEach(b => b.classList.toggle('active', b === btn));
+      ['s-browse','s-my','s-chat','s-leader'].forEach(id => {
+        $(`#${id}`)?.classList.toggle('hide', id !== tabId);
+      });
+      if (tabId === 's-browse') drawBrowse();
+      if (tabId === 's-my') drawMyApps();
+      if (tabId === 's-leader') setupLiveLeaderboard('sLeader');
+    };
   });
-  updateCounters();
-}
-function updateCounters(){
-  const projects = store.get('projects',[]);
-  const users = store.get('users',[]);
-  const o = projects.filter(p=>p.status==='Open').length;
-  const s = users.filter(u=>u.role==='student').length;
-  const c = users.filter(u=>u.role==='company').length;
-  const set=(id,val)=>{const e=$(id); if(e) e.textContent=val};
-  set('#kOpen',o); set('#kStudents',s); set('#kCompanies',c);
-}
 
-/* ===== NOTIFICATIONS DROPDOWN ===== */
-const dropdown = $('#notificationsDropdown');
-const bell1 = $('#notificationBell');
-const bell2 = $('#notificationBellAuth');
-
-function toggleNotifications() {
-  dropdown.classList.toggle('show');
-  if (dropdown.classList.contains('show')) {
-    renderNotifications();
-    // Mark all as read when opened (optional)
-    const notifications = store.get('notifications', []);
-    notifications.forEach(n => n.read = true);
-    store.set('notifications', notifications);
-    updateNotificationBadge();
-  }
-}
-
-bell1.onclick = toggleNotifications;
-bell2.onclick = toggleNotifications;
-
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-  if (!dropdown.contains(e.target) && e.target !== bell1 && e.target !== bell2) {
-    dropdown.classList.remove('show');
-  }
-});
-
-/* ===== AUTH MODAL ===== */
-const modal = $('#auth');
-$('#getStarted').onclick = ()=> modal.classList.add('show');
-$('#viewDemo').onclick   = ()=> show('role');
-$('#loginOpen').onclick  = ()=> modal.classList.add('show');
-$('#signupOpen').onclick = ()=> modal.classList.add('show');
-$('#closeAuth').onclick  = ()=> modal.classList.remove('show');
-
-/* ===== AUTH FLOW + NAV UPDATE ===== */
-function setAuthedUI(user){
-  $('#authBtns').classList.add('hide');
-  $('#userMenu').classList.remove('hide');
-  $('#avatar').textContent = (user.username?.[0]||'U').toUpperCase();
-  $('#roleBadge').textContent = (user.role==='company'?'Company':'Student');
-  $('#goDash').textContent = (user.role==='company'?'Company Dashboard':'Student Dashboard');
-  updateNotificationBadge();
-}
-function setLoggedOutUI(){
-  $('#userMenu').classList.add('hide');
-  $('#authBtns').classList.remove('hide');
-}
-$('#logout').onclick = ()=>{
-  localStorage.removeItem('current');
-  setLoggedOutUI();
-  show('home');
-};
-
-$('#doSignup').onclick = ()=>{
-  const username = $('#suUser').value.trim();
-  const email = $('#suEmail').value.trim();
-  const pass = $('#suPass').value;
-  if(!username || !email || !pass) return alert('Fill all sign up fields.');
-  const users = store.get('users',[]);
-  if(users.find(u=>u.email===email)) return alert('Email already exists.');
-  const user = {id:uid(), username,email,pass,role:null, xp:0, done:0, profile:{}};
-  users.push(user); store.set('users',users); store.set('current', user);
-  modal.classList.remove('show'); show('role');
-};
-
-$('#doLogin').onclick = ()=>{
-  const email = $('#liEmail').value.trim();
-  const pass = $('#liPass').value;
-  const users = store.get('users',[]);
-  const user = users.find(u=>u.email===email && u.pass===pass);
-  if(!user) return alert('Invalid credentials (demo).');
-  store.set('current', user);
-  modal.classList.remove('show');
-  if(!user.role){ show('role'); return; }
-  setAuthedUI(user);
-  routeByRole(user.role);
-};
-
-$('#goDash').onclick = ()=>{
-  const cur = store.get('current'); if(!cur) return;
-  routeByRole(cur.role);
-};
-
-/* ===== ROLE CHOICE ===== */
-$('#chooseCompany').onclick = ()=>{
-  const cur = store.get('current'); if(!cur) return modal.classList.add('show');
-  cur.role='company'; store.set('current',cur);
-  const users=store.get('users'); users[users.findIndex(u=>u.id===cur.id)] = cur; store.set('users',users);
-  setAuthedUI(cur); routeByRole('company');
-}
-$('#chooseStudent').onclick = ()=>{
-  const cur = store.get('current'); if(!cur) return modal.classList.add('show');
-  cur.role='student'; store.set('current',cur);
-  const users=store.get('users'); users[users.findIndex(u=>u.id===cur.id)] = cur; store.set('users',users);
-  setAuthedUI(cur); routeByRole('student');
-}
-
-function routeByRole(r){
-  if(r==='company'){ show('company'); renderCompany(); }
-  else { show('student'); renderStudent(); }
-}
-
-/* ===== COMPANY ===== */
-let currentChatProjectId = null;
-
-$$('#company .tab').forEach(t=>{
-  t.onclick = (e)=>{
-    const id = e.currentTarget.dataset.ctab;
-    $$('#company .tab').forEach(x=>x.classList.toggle('active', x===e.currentTarget));
-    ['c-post','c-projects','c-chat','c-leader','c-profile'].forEach(sec=>{
-      const el = $('#'+sec); el.classList.toggle('hide', sec!==id);
-      if(sec===id){ el.style.animation='pop .5s cubic-bezier(.2,.8,.2,1)'; setTimeout(()=>el.style.animation='',500); }
-    });
-    if(id==='c-projects') drawCompanyProjects();
-    if(id==='c-chat') {
-      if(currentChatProjectId) {
-        drawChat(currentChatProjectId);
-      } else {
-        $('#cChat').innerHTML = '<div class="muted" style="text-align:center;padding:20px;">Select a project from "My Projects" to start chatting</div>';
-      }
+  function routeByRole(role) {
+    if (role === 'company') {
+      show('company');
+      $$('#company .tab')[0].click();
+      $('#pDue').value = todayPlus(5);
+    } else {
+      show('student');
+      $$('#student .tab')[0].click();
     }
-    if(id==='c-leader') drawLeader('cLeader');
   }
-});
-
-$('#publishBtn').onclick = ()=>{
-  const title=$('#pTitle').value.trim();
-  const budget= +$('#pBudget').value;
-  const due = $('#pDue').value || todayPlus(5);
-  const cat = $('#pCat').value;
-  const desc = $('#pDesc').value.trim();
-  if(!title || !budget || !desc) return alert('Fill the required fields.');
-  const cur = store.get('current');
-  const projects = store.get('projects',[]);
-  const newProject = {id:uid(), title,budget,due,cat,desc,status:'Open',companyId:cur.id, applicants:[]};
-  projects.push(newProject);
-  store.set('projects',projects);
-  $('#pTitle').value=''; $('#pBudget').value=''; $('#pDue').value=''; $('#pDesc').value='';
-  alert('Project published!');
-  onProjectPublished(newProject);
-  drawCompanyProjects(); updateCounters();
-};
-
-function drawCompanyProjects(){
-  const cur = store.get('current');
-  const projects = store.get('projects',[]).filter(p=>!p.companyId || p.companyId===cur.id);
-  const term = ($('#cSearch').value||'').toLowerCase();
-  const tbody = $('#cTable tbody'); tbody.innerHTML='';
-  projects.filter(p=>[p.title,p.cat].join(' ').toLowerCase().includes(term)).forEach(p=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.title}</td>
-      <td>${p.cat}</td>
-      <td>₹${p.budget}</td>
-      <td>${p.due}</td>
-      <td class="status ${p.status==='Open'?'open':p.status==='In Progress'?'progress':'done'}">${p.status}</td>
-      <td>${p.applicants?.length||0}</td>
-      <td>
-        <button class="iconBtn" title="Chat" onclick="openCompanyChat('${p.id}')"><svg class="icon"><use href="#ico-msg-arrow"></use></svg></button>
-        <button class="iconBtn" title="Mark In Progress" onclick="markStatus('${p.id}','In Progress')" ${p.status==='Open'?'':'disabled'}><svg class="icon"><use href="#ico-submit"></use></svg></button>
-        <button class="iconBtn" title="Mark Done" onclick="markStatus('${p.id}','Done')" ${p.applicants?.length>0?'':'disabled'}><svg class="icon"><use href="#ico-leader"></use></svg></button>
-      </td>`;
-    tbody.appendChild(tr);
-  });
-}
-$('#cSearch').oninput = drawCompanyProjects;
-
-window.openCompanyChat = (projectId) => {
-  currentChatProjectId = projectId;
-  const tabs = $$('#company .tab');
-  tabs[2].click(); // Click chat tab
-};
-
-$('#cSend').onclick = ()=>{
-  if(!currentChatProjectId) return;
-  const cur = store.get('current');
-  const text = $('#cMsg').value.trim(); if(!text) return;
-  const msgs = store.get('messages',[]);
-  msgs.push({
-    from: cur.username, 
-    role: 'company', 
-    text, 
-    ts: Date.now(),
-    projectId: currentChatProjectId
-  });
-  store.set('messages',msgs); 
-  $('#cMsg').value=''; 
-  drawChat(currentChatProjectId);
-};
-
-/* ===== STUDENT ===== */
-let currentStudentChatProjectId = null;
-
-$$('#student .tab').forEach(t=>{
-  t.onclick = (e)=>{
-    const id = e.currentTarget.dataset.stab;
-    $$('#student .tab').forEach(x=>x.classList.toggle('active', x===e.currentTarget));
-    ['s-browse','s-my','s-chat','s-leader','s-profile'].forEach(sec=>{
-      const el = $('#'+sec); el.classList.toggle('hide', sec!==id);
-      if(sec===id){ el.style.animation='pop .5s cubic-bezier(.2,.8,.2,1)'; setTimeout(()=>el.style.animation='',500); }
-    });
-    if(id==='s-browse') drawBrowse();
-    if(id==='s-my') drawMyApps();
-    if(id==='s-chat') {
-      if(currentStudentChatProjectId) {
-        drawChat(currentStudentChatProjectId);
-      } else {
-        $('#sChat').innerHTML = '<div class="muted" style="text-align:center;padding:20px;">Select a project from "My Applications" to start chatting</div>';
-      }
-    }
-    if(id==='s-leader') drawLeader('sLeader');
-  }
-});
-
-function drawBrowse(){
-  const cur = store.get('current');
-  const projects = store.get('projects',[]);
-  const term = ($('#sSearch').value||'').toLowerCase();
-  const tbody = $('#sTable tbody'); tbody.innerHTML='';
-  projects.filter(p=>p.status!=='Done')
-          .filter(p=>[p.title,p.cat].join(' ').toLowerCase().includes(term))
-          .forEach(p=>{
-    const comp = (store.get('users',[]).find(u=>u.id===p.companyId)?.username) || 'Any';
-    const isApplied = p.applicants?.includes(cur.id);
-    const tr=document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.title}</td><td>${comp}</td><td>${p.cat}</td>
-      <td>₹${p.budget}</td><td>${p.due}</td>
-      <td class="status ${p.status==='Open'?'open':'progress'}">${p.status}</td>
-      <td><button class="btn" style="padding:8px 12px" ${isApplied ? 'disabled' : ''} onclick="apply('${p.id}')">${isApplied ? 'Applied' : 'Apply'}</button></td>`;
-    tbody.appendChild(tr);
-  });
-}
-$('#sSearch').oninput = drawBrowse;
-
-window.apply = (pid)=>{
-  const cur = store.get('current'); if(!cur) return modal.classList.add('show');
-  const projects = store.get('projects',[]);
-  const p = projects.find(x=>x.id===pid); if(!p) return;
-  p.applicants = p.applicants || [];
-  if(!p.applicants.includes(cur.id)) p.applicants.push(cur.id);
-  p.status = 'In Progress';
-  store.set('projects',projects);
-  alert('Applied! This project moved to In Progress.');
-  onStudentApplied(p, cur);
-  drawBrowse(); drawMyApps(); updateCounters();
-};
-
-function drawMyApps(){
-  const cur = store.get('current');
-  const projects = store.get('projects',[]).filter(p=>p.applicants?.includes(cur.id));
-  const tbody = $('#sMy tbody'); tbody.innerHTML='';
-  projects.forEach(p=>{
-    const comp = (store.get('users',[]).find(u=>u.id===p.companyId)?.username) || 'Company';
-    const tr=document.createElement('tr');
-    tr.innerHTML = `<td>${p.title}</td><td>${comp}</td><td class="status ${p.status==='Done'?'done':'progress'}">${p.status}</td>
-      <td>
-        <button class="btn soft" onclick="openStudentChat('${p.id}')">Chat</button>
-        ${p.status !== 'Done' ? `<button class="btn" onclick="submitProject('${p.id}')">Submit</button>` : '<span class="muted">Submitted</span>'}
-      </td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-window.submitProject = (projectId) => {
-  const megaLink = prompt('Enter your MEGA file link for project submission:');
-  if (!megaLink || !megaLink.trim()) {
-    alert('Please provide a valid MEGA link to submit your project.');
-    return;
-  }
-  
-  const cur = store.get('current');
-  const projects = store.get('projects',[]);
-  const p = projects.find(x=>x.id===projectId);
-  if (!p) return;
-  
-  p.megaLink = megaLink.trim();
-  p.status = 'Done';
-  store.set('projects',projects);
-  
-  const users = store.get('users',[]);
-  const st = users.find(u=>u.id===cur.id);
-  st.xp = (st.xp||0)+100; st.done=(st.done||0)+1;
-  store.set('users',users); store.set('current',st);
-  
-  onProjectStatusChange(p, 'Done');
-  alert('Project submitted successfully! MEGA link saved.');
-  drawMyApps(); drawLeader('sLeader'); drawLeader('cLeader'); updateCounters();
-};
-
-window.openStudentChat = (projectId) => {
-  currentStudentChatProjectId = projectId;
-  const tabs = $$('#student .tab');
-  tabs[2].click(); // Click chat tab
-};
-
-$('#sSend').onclick = ()=>{
-  if(!currentStudentChatProjectId) return;
-  const cur = store.get('current');
-  const text = $('#sMsg').value.trim(); if(!text) return;
-  const msgs = store.get('messages',[]);
-  msgs.push({
-    from: cur.username, 
-    role: 'student', 
-    text, 
-    ts: Date.now(),
-    projectId: currentStudentChatProjectId
-  });
-  store.set('messages',msgs); 
-  $('#sMsg').value=''; 
-  drawChat(currentStudentChatProjectId);
-};
-
-/* Chat */
-function drawChat(projectId){
-  const box = $('#cChat').offsetParent ? $('#cChat') : $('#sChat');
-  const msgs = store.get('messages',[]).filter(m => m.projectId === projectId);
-  box.innerHTML='';
-  msgs.sort((a,b)=>a.ts-b.ts).forEach(m=>{
-    const div = document.createElement('div');
-    const cur = store.get('current');
-    const mine = (cur.role === 'company' && m.role === 'company') || 
-                 (cur.role === 'student' && m.role === 'student');
-    div.className = 'msg ' + (mine ? 'me':'them');
-    div.innerHTML = `<b>${m.from}:</b> ${m.text}`;
-    box.appendChild(div);
-  });
-  box.scrollTop = box.scrollHeight;
-}
-
-/* Leaderboard */
-function drawLeader(tableId){
-  const users = store.get('users',[]).filter(u=>u.role==='student').sort((a,b)=>(b.xp||0)-(a.xp||0));
-  const tbody = document.querySelector('#'+tableId+' tbody'); if(!tbody) return;
-  tbody.innerHTML = '';
-  users.forEach((u,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML = `<td>${i+1}</td><td>${u.username}</td><td>${u.xp||0}</td><td>${u.done||0}</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-/* Profile */
-$('#saveCompany').onclick = ()=>{
-  const cur = store.get('current');
-  cur.profile.company = {
-    name: $('#coName').value.trim(),
-    industry: $('#coIndustry').value.trim(),
-    loc: $('#coLoc').value.trim(),
-    about: $('#coAbout').value.trim()
-  };
-  store.set('current',cur);
-  const users = store.get('users',[]);
-  users[users.findIndex(u=>u.id===cur.id)] = cur; store.set('users',users);
-  alert('Company profile saved!');
-};
-
-$('#saveStudent').onclick = ()=>{
-  const cur = store.get('current');
-  cur.profile.student = {
-    name: $('#stName').value.trim(), 
-    school: $('#stSchool').value.trim(), 
-    loc: $('#stLoc').value.trim(),
-    skills: $('#stSkills').value.trim(), 
-    bio: $('#stBio').value.trim()
-  };
-  store.set('current',cur);
-  const users = store.get('users',[]);
-  users[users.findIndex(u=>u.id===cur.id)] = cur; store.set('users',users);
-  alert('Profile saved!');
-  updateStudentStats();
-};
-
-function updateStudentStats(){
-  const cur = store.get('current')||{};
-  const xp = cur.xp||0, done = cur.done||0;
-  const el = $('#stStats'); if(el) el.textContent = `XP: ${xp} • Tasks Done: ${done}`;
-}
-
-/* Render dashboards */
-function renderCompany(){ 
-  $$('#company .tab')[0].click(); 
-  drawCompanyProjects(); 
-  // Set default due date
-  $('#pDue').value = todayPlus(5);
-}
-function renderStudent(){ 
-  $$('#student .tab')[0].click(); 
-  drawBrowse(); 
-  updateStudentStats(); 
-}
-
-/* Restore session / seed demo users */
-(function boot(){
-  const users = store.get('users',[]);
-  if(users.length===0){
-    const coId = uid();
-    const stId = uid();
-    users.push({id:coId, username:'GreenTech', email:'co@demo', pass:'123', role:'company', xp:0, done:0});
-    users.push({id:stId, username:'Aarav', email:'st@demo', pass:'123', role:'student', xp:200, done:2});
-    store.set('users',users);
-    
-    // Update project company IDs
-    const projects = store.get('projects',[]);
-    projects.forEach(p => p.companyId = coId);
-    store.set('projects', projects);
-  }
-  const cur = store.get('current');
-  if(cur && cur.role){ 
-    setAuthedUI(cur); 
-    routeByRole(cur.role); 
-  }
-  else { 
-    setLoggedOutUI(); 
-    show('home'); 
-  }
-  updateNotificationBadge();
-})();
 </script>
 </body>
 </html>
-
