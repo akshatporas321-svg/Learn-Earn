@@ -473,6 +473,7 @@
         <h3>Login</h3>
         <input id="liEmail" class="input" placeholder="Email" style="margin:8px 0">
         <input id="liPass" type="password" class="input" placeholder="Password" style="margin:8px 0">
+        <!-- Forgot Password will be added by JS -->
         <button class="btn soft" id="doLogin">Login</button>
       </div>
     </div>
@@ -564,6 +565,23 @@
   $('#loginOpen').onclick = () => modal.classList.add('show');
   $('#signupOpen').onclick = () => modal.classList.add('show');
   $('#closeAuth').onclick = () => modal.classList.remove('show');
+
+  // 🔐 ADD FORGOT PASSWORD LINK
+  const forgotLink = document.createElement('a');
+  forgotLink.href = '#';
+  forgotLink.id = 'forgotPassword';
+  forgotLink.textContent = 'Forgot Password?';
+  forgotLink.style.cssText = 'font-size:14px;color:var(--grad-a);text-decoration:none;margin-top:4px;display:block;';
+  $('#liPass').after(forgotLink);
+
+  $('#forgotPassword').onclick = (e) => {
+    e.preventDefault();
+    const email = $('#liEmail').value.trim();
+    if (!email) return alert('Enter your email.');
+    auth.sendPasswordResetEmail(email)
+      .then(() => alert(`Password reset email sent to ${email}`))
+      .catch(err => alert(err.message));
+  };
 
   $('#doSignup').onclick = async () => {
     const email = $('#suEmail').value.trim();
@@ -864,3 +882,4 @@
 </script>
 </body>
 </html>
+
