@@ -496,11 +496,12 @@
   <symbol id="ico-folder" viewBox="0 0 24 24"><path fill="url(#g)" d="M10 4h2l2 2h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6Z"/></symbol>
 </svg>
 
-<!-- ✅ FIXED FIREBASE SDK - NO TRAILING SPACES -->
+<!-- ✅ FINAL FIREBASE SDK - COMPAT MODE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
+  // 🔥 YOUR EXACT FIREBASE CONFIG
   const firebaseConfig = {
     apiKey: "AIzaSyA48QxlLR3ZWaoBca1Nd3fYW6cO4AkKnfU",
     authDomain: "learn-earn-6ee64.firebaseapp.com",
@@ -566,14 +567,13 @@
   $('#signupOpen').onclick = () => modal.classList.add('show');
   $('#closeAuth').onclick = () => modal.classList.remove('show');
 
-  // 🔐 ADD FORGOT PASSWORD LINK
+  // 💡 FORGOT PASSWORD
   const forgotLink = document.createElement('a');
   forgotLink.href = '#';
   forgotLink.id = 'forgotPassword';
   forgotLink.textContent = 'Forgot Password?';
   forgotLink.style.cssText = 'font-size:14px;color:var(--grad-a);text-decoration:none;margin-top:4px;display:block;';
   $('#liPass').after(forgotLink);
-
   $('#forgotPassword').onclick = (e) => {
     e.preventDefault();
     const email = $('#liEmail').value.trim();
@@ -583,6 +583,7 @@
       .catch(err => alert(err.message));
   };
 
+  // 🔐 SIGNUP
   $('#doSignup').onclick = async () => {
     const email = $('#suEmail').value.trim();
     const pass = $('#suPass').value;
@@ -593,22 +594,24 @@
       await cred.user.sendEmailVerification();
       await db.collection('users').doc(cred.user.uid).set({ username, email, role: null, xp: 0, done: 0 });
       modal.classList.remove('show');
-      alert('Account created! Please verify your email.');
-    } catch (err) { alert(err.message); }
+      alert('Account created! Check email to verify.');
+    } catch (err) { alert('Signup failed: ' + err.message); }
   };
 
+  // 🔐 LOGIN
   $('#doLogin').onclick = async () => {
     const email = $('#liEmail').value.trim();
     const pass = $('#liPass').value;
     try {
       await auth.signInWithEmailAndPassword(email, pass);
       modal.classList.remove('show');
-    } catch (err) { alert(err.message); }
+    } catch (err) { alert('Login failed: ' + err.message); }
   };
 
+  // 🔔 EMAIL VERIFICATION PROMPT
   function promptEmailVerification() {
     if (!auth.currentUser.emailVerified) {
-      if (confirm('Please verify your email. Resend verification?')) {
+      if (confirm('Email not verified. Resend?')) {
         auth.currentUser.sendEmailVerification()
           .then(() => alert('Verification email sent!'))
           .catch(err => alert(err.message));
@@ -616,6 +619,7 @@
     }
   }
 
+  // 🔄 AUTH STATE
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       const doc = await db.collection('users').doc(user.uid).get();
@@ -642,6 +646,7 @@
     if (currentUser?.role) routeByRole(currentUser.role);
   };
 
+  // 🎯 ROLE SELECTION
   $('#chooseCompany').onclick = async () => {
     if (!currentUser) return modal.classList.add('show');
     await db.collection('users').doc(currentUser.id).update({ role: 'company' });
@@ -657,6 +662,7 @@
     routeByRole('student');
   };
 
+  // 📤 PUBLISH PROJECT
   $('#publishBtn').onclick = async () => {
     const title = $('#pTitle').value.trim();
     const budget = +$('#pBudget').value;
@@ -674,6 +680,7 @@
     updateCounters();
   };
 
+  // 👀 BROWSE PROJECTS
   async function drawBrowse() {
     const [pSnap, uSnap] = await Promise.all([
       db.collection('projects').where('status', '!=', 'Done').get(),
@@ -713,6 +720,7 @@
     }
   };
 
+  // 📂 MY APPLICATIONS
   async function drawMyApps() {
     const [pSnap, uSnap] = await Promise.all([
       db.collection('projects').where('applicants', 'array-contains', currentUser.id).get(),
@@ -737,6 +745,7 @@
     });
   }
 
+  // 📤 SUBMIT PROJECT
   window.submitProject = async (projectId) => {
     const megaLink = prompt('Enter your MEGA file link:');
     if (!megaLink?.trim()) return alert('Please enter a valid MEGA link.');
@@ -753,6 +762,7 @@
     updateCounters();
   };
 
+  // 💬 LIVE CHAT
   function setupLiveChat(projectId) {
     if (chatUnsub) chatUnsub();
     currentChatProjectId = projectId;
@@ -825,6 +835,7 @@
     setupLiveChat(projectId);
   };
 
+  // 🏆 LIVE LEADERBOARD
   function setupLiveLeaderboard(tableId) {
     if (leaderUnsub) leaderUnsub();
     const tbody = $(`#${tableId} tbody`);
@@ -844,6 +855,7 @@
       });
   }
 
+  // TABS
   $$('#company .tab').forEach(btn => {
     btn.onclick = () => {
       const tabId = btn.dataset.ctab;
@@ -879,7 +891,9 @@
       $$('#student .tab')[0].click();
     }
   }
+
+  // BOOT
+  updateCounters();
 </script>
 </body>
 </html>
-
