@@ -1709,14 +1709,22 @@ function applyTranslations(map) {
          if (el.id === 'tcDocument') {
              el.innerHTML = map[key];
          } else {
-             // For regular text nodes, try to preserve child elements like <b>
+           // For regular text nodes, try to preserve child elements like <b>
+           // If the translation contains simple HTML (e.g. <b>), render it as HTML
+           // so browsers don't show literal tags. Avoid rendering arbitrary HTML
+           // for safety except for simple bold tags which are used in translations.
+           const value = map[key];
+           if (typeof value === 'string' && /<\/?b>/i.test(value)) {
+             el.innerHTML = value;
+           } else {
              const childNodes = Array.from(el.childNodes);
              const textNode = childNodes.find(node => node.nodeType === Node.TEXT_NODE);
              if (textNode && !el.querySelector('input')) { // Avoid replacing input placeholders if they have data-translate
-                 textNode.textContent = map[key];
+               textNode.textContent = value;
              } else {
-                 el.textContent = map[key];
+               el.textContent = value;
              }
+           }
          }
       }
    });
