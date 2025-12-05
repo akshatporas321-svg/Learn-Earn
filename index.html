@@ -666,6 +666,7 @@
     <div class="right tabs">
       <button class="tab" data-stab="s-browse"><svg class="icon"><use href="#ico-search-doc"></use></svg> <span data-translate="findProjects">Find Projects</span></button>
       <button class="tab" data-stab="s-my"><svg class="icon"><use href="#ico-folder"></use></svg> <span data-translate="myApplications">My Applications</span></button>
+      <button class="tab" data-stab="s-courses"><svg class="icon"><use href="#ico-book"></use></svg> <span>Courses</span></button>
       <button class="tab" data-stab="s-chat"><svg class="icon"><use href="#ico-msg-arrow"></use></svg> <span data-translate="chat">Chat</span></button>
       <button class="tab" data-stab="s-leader" id="sLeaderTab"><svg class="icon"><use href="#ico-leader"></use></svg> <span data-translate="leaderboard">Leaderboard</span></button>
       <button class="tab active" data-stab="s-profile"><svg class="icon"><use href="#ico-profile"></use></svg> <span data-translate="myProfile">My Profile</span></button>
@@ -734,11 +735,11 @@
       <div class="col"><label data-translate="skills">Skills / Specialty *</label><input id="stSkills" class="input" placeholder="e.g., Design, Content, Web..." required/></div>
     </div>
     <div class="row" style="margin-top:10px">
-      <div class="col"><label data-translate="literacyStatus">Educated or Illiterate *</label>
+      <div class="col"><label>Skilled or Without Skilled *</label>
         <select id="stLiteracy" class="input">
-          <option value="" data-translate="selectStatus">Select Status</option>
-          <option value="educated" data-translate="educated">Educated</option>
-          <option value="illiterate" data-translate="illiterate">Illiterate</option>
+          <option value="">Select Status</option>
+          <option value="skilled">Skilled</option>
+          <option value="without_skilled">Without Skilled</option>
         </select>
       </div>
       <div class="col"><label data-translate="bio">Bio</label><input id="stBio" class="input" placeholder="Short bio"/></div>
@@ -747,6 +748,12 @@
       <button class="btn" id="saveStudent" data-translate="save">Save</button>
       <span class="muted right" id="stStats"></span>
     </div>
+  </div>
+  <!-- Courses -->
+  <div id="s-courses" class="card hide">
+    <h2><svg class="icon"><use href="#ico-book"></use></svg> <span>Courses</span></h2>
+    <div class="divider"></div>
+    <div style="padding:40px;text-align:center;font-size:20px;font-weight:700;color:var(--muted, #6b5aa5)">Coming Soon!!!</div>
   </div>
 </section>
 <!-- AUTH MODAL -->
@@ -794,11 +801,17 @@
   <symbol id="ico-briefcase" viewBox="0 0 24 24"><path fill="url(#g)" d="M9 3h6a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9a2 2 0 0 1 2-2h2V5a2 2 0 0 1 2-2Zm6 4V5H9v2h6Z"/></symbol>
   <symbol id="ico-cap" viewBox="0 0 24 24"><path fill="url(#g)" d="m12 3 10 5-10 5L2 8l10-5Zm7 8v5c0 2.8-3.6 5-7 5s-7-2.2-7-5v-5l7 3.5L19 11Z"/></symbol>
   <symbol id="ico-folder" viewBox="0 0 24 24"><path fill="url(#g)" d="M10 4h2l2 2h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6Z"/></symbol>
+  <symbol id="ico-book" viewBox="0 0 24 24"><path fill="url(#g)" d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v16h16V4H4Z"/></symbol>
 </svg>
 <script>
 /* ===== UTIL + STORE ===== */
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
+// Debug helpers to surface runtime issues when opened locally
+console.log('Learn&Earn script loaded');
+window.addEventListener('error', e => { console.error('Unhandled JS error', e); try{ alert('JS error: '+(e.message||e)); }catch{} });
+window.addEventListener('unhandledrejection', e => { console.error('Unhandled Promise Rejection', e); try{ alert('Promise error: '+(e.reason?.message||e.reason)); }catch{} });
+document.addEventListener('click', e => { try{ if (e.target && e.target.id) console.log('click on', e.target.id); }catch{} }, true);
 const store = {
   get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def }},
   set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
@@ -970,7 +983,7 @@ const translations = {
         deadline: "समय सीमा",
         category: "श्रेणी",
         description: "विवरण",
-        attachmentDemo: "अनुलग्नक (केवल डेमो)",
+        attachmentDemo: "अनुलગ्नક (केवल डेमो)",
         design: "डिज़ाइन",
         content: "सामग्री",
         research: "अनुसंधान",
@@ -1017,7 +1030,7 @@ const translations = {
         action: "क्रिया",
         skills: "कौशल / विशेषज्ञता *",
         fullName: "पूरा नाम *",
-        ageOrGrade: "आयु (वैकल्पिक) या स्कूल कक्षा *",
+        ageOrGrade: "आयु (पर्यायी) या स्कूल कक्षा *",
         schoolOrCollege: "स्कूल / कॉलेज का नाम *",
         bio: "जीवनी",
         literacyStatus: "शिक्षित या अशिक्षित *",
@@ -1058,12 +1071,12 @@ const translations = {
         loginButton: "लॉग इन करा",
         demoDisclaimer: "फक्त डेमो - ब्राउझरमध्ये स्थानिकरित्या प्रमाणपत्रे संग्रहित केली जातात. ईमेलवर सूचना पाठविल्या जातात.",
         heroTitle: "जिथे शिकणे आणि संधी यांची भेट होते.",
-        heroDescription: "एक साधी बाजारपेठ जिथे <b>कंपन्या</b> छोटे प्रकल्प पोस्ट करतात आणि <b>विद्यार्थी</b> शिकण्यासाठी, अनुभव मिळवण्यासाठी आणि कमावण्यासाठी ते पूर्ण करतात.",
+        heroDescription: "एक साधी बाजारपेठ जिथे <b>कंपन्या</b> छोटे प्रोजेक्ट पोस्ट करतात आणि <b>विद्यार्थी</b> शिकण्यासाठी, अनुभव मिळवण्यासाठी आणि कमावण्यासाठी ते पूर्ण करतात.",
         getStarted: "सुरुवात करा",
         viewDemo: "डेमो पहा",
-        dataDisclaimer: "डेमोसाठी डेटा आपल्या ब्राउझरमध्ये स्थानिकरित्या संग्रहित केला जातो. ईमेलवर सूचना पाठविल्या जातात.",
+        dataDisclaimer: "डेमोच्या साठी डेटा आपल्या ब्राउझरमध्ये स्थानिकरित्या संग्रहित केला जातो. ईमेलवर सूचना पाठविल्या जातात.",
         liveCounters: "लाइव्ह काउंटर्स",
-        openProjects: "उघडे प्रकल्प",
+        openProjects: "उघडे प्रोजेक्ट",
         students: "विद्यार्थी",
         companies: "कंपन्या",
         company: "कंपनी",
@@ -1081,11 +1094,11 @@ const translations = {
         leaderboard: "अग्रणी स्थाने",
         dashboard: "डॅशबोर्ड",
         roleLabel: "भूमिका",
-        logout: "लॉग आउट",
-        notifications: "सूचना",
-        publishProject: "प्रकल्प प्रकाशित करा",
+        logout: "लॉग आऊट",
+        notifications: "सूचनाएं",
+        publishProject: "प्रोजेक्ट प्रकाशित करा",
         title: "शीर्षक",
-        budget: "बजेट (₹)",
+        budget: "बजट (₹)",
         deadline: "मुदत",
         category: "श्रेणी",
         description: "वर्णन",
@@ -1135,8 +1148,8 @@ const translations = {
         project: "प्रकल्प",
         action: "क्रिया",
         skills: "कौशल्ये / विशेषज्ञता *",
-        fullName: "पूर्ण नाव *",
-        ageOrGrade: "वय (पर्यायी) किंवा शाळा ग्रेड *",
+        fullName: "मुळ नाव *",
+        ageOrGrade: "वय (वैकल्पिक) किंवा शाळा ग्रेड *",
         schoolOrCollege: "शाळा / महाविद्यालयाचे नाव *",
         bio: "जीवनचरित्र",
         literacyStatus: "शिक्षित किंवा अशिक्षित *",
@@ -1146,7 +1159,7 @@ const translations = {
         videoTutorials: "व्हिडिओ ट्यूटोरियल्स",
         tutorialsMessage: "येथे आपल्यासाठी व्हिडिओ ट्यूटोरियल्स आहेत.",
         helpAndSupport: "मदत आणि समर्थन",
-        reportIssue: "समस्या किंवा मदत रिपोर्ट करा.",
+        reportIssue: "समस्या रिपोर्ट करा किंवा मदत मिळवा.",
         submitReport: "रिपोर्ट सादर करा",
         cancel: "रद्द करा",
         myTickets: "माझे तिकीट",
@@ -1156,7 +1169,7 @@ const translations = {
         langOptionTa: "மொழி: தமிழ்",
         langOptionTe: "భాష: తెలుగు",
         langOptionGu: "ભાષા: ગુજરાતી",
-        helpRibbonText: "मदत / रिपोर्ट",
+        helpRibbonText: "मदत / निवेदन",
         termsAndConditions: "अटी आणि शर्ती",
         iAgreeToTc: "मी अटी आणि गोपनीयता धोरणाला मान्यता देतो",
         accept: "स्वीकार करा",
@@ -1177,7 +1190,7 @@ const translations = {
         loginButton: "உள்நுழை",
         demoDisclaimer: "சோதனைக்காக மட்டும் - உங்கள் உலாவியில் உள்ளடக்கிய அங்கீகாரங்கள் சேமிக்கப்படுகின்றன. மின்னஞ்சல்கள் உங்களுக்கு அனுப்பப்படும்.",
         heroTitle: "இங்கே கற்றல் வாய்ப்புடன் சந்திக்கிறது.",
-        heroDescription: "ஒரு எளிய சந்தை இடம் இதில் <b>நிறுவனங்கள்</b> சிறிய திட்டங்களை இடுகின்றன மற்றும் <b>மாணவர்கள்</b> கற்று, அனுபவம் பெற்று, சம்பாதிக்க அவற்றை முடிக்கின்றனர்.",
+        heroDescription: "ஒரு எளிய சந்தை இடம் இதில் <b>நிறுவனங்கள்</b> சிறிய திட்டங்களை போஸ்ட் செய்கிறார்கள் மற்றும் <b>மாணவர்கள்</b> கற்றுக்கொள்வதற்காக, அனுபவம் பெறுவதற்காக மற்றும் சம்பாதிக்கிறார்கள்.",
         getStarted: "தொடங்குங்கள்",
         viewDemo: "சோதனையை பார்க்கவும்",
         dataDisclaimer: "சோதனைக்காக உங்கள் உலாவியில் தரவு சேமிக்கப்படுகிறது. மின்னஞ்சல்கள் உங்களுக்கு அனுப்பப்படும்.",
@@ -1193,7 +1206,7 @@ const translations = {
         imStudent: "நான் ஒரு மாணவர்",
         studentDescription: "உண்மையான நிறுவனங்களுடன் பணிபுரிந்து, அனுபவம் பெற்று, உங்கள் திறன்களுக்கு பரிசுகளை பெறுங்கள்.",
         continueAsStudent: "மாணவராக தொடரவும்",
-        companyDashboard: "நிறுவன டாஷ்போர்டு",
+        companyDashboard: "நிறுவன் டாஷ்போர்டு",
         publish: "வெளியிடு",
         myProjects: "என் திட்டங்கள்",
         chat: "அரட்டை",
@@ -1244,18 +1257,18 @@ const translations = {
         webDevelopment: "இணைய உருவாக்கம்",
         marketing: "சந்தைப்படுத்தல்",
         other: "மற்றவை",
-        studentDashboard: "மாணவர் டாஷ்போர்டு",
-        findProjects: "திட்டங்களைக் கண்டறி",
+        studentDashboard: "வித்யார்த்தி டாஷ்போர்டு",
+        findProjects: "பிராஜெக்டுகளை கண்டறி",
         myApplications: "என் விண்ணப்பங்கள்",
         myProfile: "என் சுயவிவரம்",
-        browseProjects: "திட்டங்களை உலாவவும்",
+        browseProjects: "பிராஜெக்டுகளை உலாவவும்",
         searchPlaceholder: "தலைப்பு அல்லது வகையைத் தேடு…",
         chatWithCompany: "நிறுவனத்துடன் அரட்டை அடிக்கவும்",
-        project: "திட்டம்",
+        project: "பிராஜெக்ட்",
         action: "செயல்",
         skills: "திறன்கள் / சிறப்புத்துறை *",
         fullName: "முழு பெயர் *",
-        ageOrGrade: "வயது (விரும்பினால்) அல்லது பள்ளி பார்வை *",
+        ageOrGrade: "வயது (விரும்பினால்) அல்லது பள்ளி தரம் *",
         schoolOrCollege: "பள்ளி / கல்லூரி பெயர் *",
         bio: "பயோ",
         literacyStatus: "கல்வியாளர் அல்லது படிக்க தெரியாதவர் *",
@@ -1263,7 +1276,7 @@ const translations = {
         educated: "கல்வியாளர்",
         illiterate: "படிக்க தெரியாதவர்",
         videoTutorials: "வீடியோ பயிற்சிகள்",
-        tutorialsMessage: "உங்களுக்கான வீடியோ பயிற்சிகள் இதோ.",
+        tutorialsMessage: "மிக்க நன்றி! உங்கள் பதிவு வெற்றிகரமாக முடிந்தது.",
         helpAndSupport: "உதவி மற்றும் ஆதரவு",
         reportIssue: "சிக்கலைப் புகாரளிக்கவும் அல்லது உதவியைப் பெறவும்.",
         submitReport: "அறிக்கையைச் சமர்ப்பிக்கவும்",
@@ -1300,7 +1313,7 @@ const translations = {
         getStarted: "ప్రారంభించండి",
         viewDemo: "డెమో చూడండి",
         dataDisclaimer: "డెమో కోసం డేటా మీ బ్రౌజర్ లో స్థానికంగా నిల్వ చేయబడుతుంది. ఈమెయిళ్ళు మీకు పంపబడతాయి.",
-        liveCounters: "లైవ్ కౌంటర్లు",
+        liveCounters: "ఉయిర్ కౌంటర్లు",
         openProjects: "తెరిచిన ప్రాజెక్టులు",
         students: "విద్యార్థులు",
         companies: "కంపెనీలు",
@@ -1312,12 +1325,12 @@ const translations = {
         imStudent: "నేను ఒక విద్యార్థి",
         studentDescription: "నిజమైన కంపెనీలతో పని చేయండి, అనుభవం పొందండి, మీ పోర్ట్ఫోలియోను నిర్మాణం చేయండి మరియు మీ నైపుణ్యాలకు బహుమతులు పొందండి.",
         continueAsStudent: "విద్యార్థిగా కొనసాగండి",
-        companyDashboard: "కంపెనీ డాష్బోర్డ్",
+        companyDashboard: "నిర్మాణం డాష్‌బోర్డ్",
         publish: "ప్రచురించు",
         myProjects: "నా ప్రాజెక్టులు",
-        chat: "చాట్",
+        chat: "అరட்டை",
         leaderboard: "లీడర్బోర్డ్",
-        dashboard: "డాష్బోర్డ్",
+        dashboard: "డాష్‌బోర్డ్",
         roleLabel: "పాత్ర",
         logout: "లాగౌట్",
         notifications: "నోటిఫికేషన్లు",
@@ -1343,19 +1356,19 @@ const translations = {
         rank: "#",
         xp: "XP",
         done: "పూర్తయింది",
-        companyDetails: "కంపెనీ వివరాలు",
+        companyDetails: "నిర్మాణం వివరాలు",
         companyName: "కంపెనీ పేరు *",
         industry: "పరిశ్రమ *",
         location: "స్థానం *",
-        foundedYear: "స్థాపించిన సంవత్సరం",
-        website: "వెబ్సైట్",
+        foundedYear: "నిర్మాణం సంవత్సరం",
+        website: "వెబ్‌సైట్",
         contactPerson: "సంప్రదింపు వ్యక్తి",
         designation: "హోదా",
         budgetRange: "బడ్జెట్ పరిధి (₹)",
         selectBudgetRange: "బడ్జెట్ పరిధిని ఎంచుకోండి",
         preferredProjectTypes: "ఇష్టమైన ప్రాజెక్ట్ రకాలు *",
         selectType: "రకాన్ని ఎంచుకోండి",
-        aboutCompany: "కంపెనీ గురించి",
+        aboutCompany: "నిర్మాణం గురించి",
         mission: "లక్ష్యం",
         vision: "దృష్టి",
         save: "సేవ్",
@@ -1373,8 +1386,8 @@ const translations = {
         project: "ప్రాజెక్ట్",
         action: "చర్య",
         skills: "నైపుణ్యాలు / ప్రత్యేకత *",
-        fullName: "పూర్తి పేరు *",
-        ageOrGrade: "వయస్సు (ఐచ్ఛికం) లేదా పాఠశాల తరగతి *",
+        fullName: "మுழు పేరు *",
+        ageOrGrade: "వయస్సు (వైకల్పికం) లేదా పాఠశాల గ్రేడ్ *",
         schoolOrCollege: "పాఠశాల / కళాశాల పేరు *",
         bio: "బయో",
         literacyStatus: "చదువుకున్నవారు లేదా అక్షరాస్యులు *",
@@ -1391,14 +1404,14 @@ const translations = {
         langOptionEn: "Language: English",
         langOptionHi: "भाषा: हिंदी",
         langOptionMr: "भाषा: मराठी",
-        langOptionTa: "భాష: తెలుగు",
+        langOptionTa: "மொழி: தமிழ்",
         langOptionTe: "భాష: తెలుగు",
         langOptionGu: "ભાષા: ગુજરાતી",
         helpRibbonText: "సహాయం / నివేదిక",
-        termsAndConditions: "నిబంధనలు మరియు షరతులు",
-        iAgreeToTc: "నేను నిబంధనలు మరియు గోప్యతా విధానానికి ఒప్పుకుంటున్నాను",
+        termsAndConditions: "విధిమுறలు మరియు నిబంధనలు",
+        iAgreeToTc: "నేను విధిమுறలు మరియు గోప్యతా విధానాన్ని అంగీకరిస్తున్నాను",
         accept: "అంగీకరించు",
-        reject: "తిరస్కరించు",
+        reject: "నిరాకరించు",
         copyright: "© Learn&Earn — ప్రోటోటైప్. “కనెక్ట్. నేర్చుకోండి. సంపాదించండి.”"
     },
     gu: {
@@ -1431,12 +1444,12 @@ const translations = {
         imStudent: "હું એક વિદ્યાર્થી છું",
         studentDescription: "વાસ્તવિક કંપનીઓ સાથે કામ કરો, અનુભવ મેળવો, તમારું પોર્ટફોલિયો બનાવો અને તમારી કુશળતાઓ માટે પુરસ્કારો મેળવો.",
         continueAsStudent: "વિદ્યાર્થી તરીકે ચાલુ રાખો",
-        companyDashboard: "કંપની ડૅશબોર્ડ",
+        companyDashboard: "નિર્માણ ડેશબોર્ડ",
         publish: "પ્રકાશિત કરો",
         myProjects: "મારા પ્રોજેક્ટ્સ",
         chat: "ચેટ",
         leaderboard: "લીડરબોર્ડ",
-        dashboard: "ડૅશબોર્ડ",
+        dashboard: "ડેશબોર્ડ",
         roleLabel: "ભૂમિકા",
         logout: "લૉગ આઉટ",
         notifications: "સૂચનાઓ",
@@ -1446,7 +1459,7 @@ const translations = {
         deadline: "સમય મર્યાદા",
         category: "શ્રેણી",
         description: "વર્ણન",
-        attachmentDemo: "અટેચમેન્ટ (ફક્ત ડેમો)",
+        attachmentDemo: "જોડણી (ફક્ત ડેમો)",
         design: "ડિઝાઇન",
         content: "સામગ્રી",
         research: "સંશોધન",
@@ -1462,11 +1475,11 @@ const translations = {
         rank: "#",
         xp: "XP",
         done: "થઈ ગયું",
-        companyDetails: "કંપનીની વિગતો",
+        companyDetails: "નિર્માણ વિગતો",
         companyName: "કંપનીનું નામ *",
         industry: "ઉદ્યોગ *",
         location: "સ્થાન *",
-        foundedYear: "સ્થાપનાનું વર્ષ",
+        foundedYear: "નિર્માણ વર્ષ",
         website: "વેબસાઇટ",
         contactPerson: "સંપર્ક વ્યક્તિ",
         designation: "હોદ્દો",
@@ -1474,8 +1487,8 @@ const translations = {
         selectBudgetRange: "બજેટ શ્રેણી પસંદ કરો",
         preferredProjectTypes: "પસંદગીના પ્રોજેક્ટ પ્રકાર *",
         selectType: "પ્રકાર પસંદ કરો",
-        aboutCompany: "કંપની વિશે",
-        mission: "મિશન",
+        aboutCompany: "નિર્માણ વિશે",
+        mission: "લક્ષ્ય",
         vision: "વિઝન",
         save: "સાચવો",
         contentWriting: "સામગ્રી લેખન",
@@ -1500,20 +1513,20 @@ const translations = {
         selectStatus: "સ્થિતિ પસંદ કરો",
         educated: "શિક્ષિત",
         illiterate: "અશિક્ષિત",
-        videoTutorials: "વીડિયો ટ્યુટોરિયલ્સ",
-        tutorialsMessage: "અહીં તમારા માટે વીડિયો ટ્યુટોરિયલ્સ છે.",
-        helpAndSupport: "મદદ અને આધાર",
+        videoTutorials: "વિડિયો ટ્યુટોરિયલ્સ",
+        tutorialsMessage: "અહીં તમારા માટે વિડિયો ટ્યુટોરિયલ્સ છે.",
+        helpAndSupport: "મદદર અને આધાર",
         reportIssue: "સમસ્યા રિપોર્ટ કરો અથવા મદદ મેળવો.",
-        submitReport: "અહેવાલ સબમિટ કરો",
+        submitReport: "રિપોર્ટ સબમિટ કરો",
         cancel: "રદ કરો",
-        myTickets: "મારા ટિકિટ્સ",
+        myTickets: "મારા ટિકિટ",
         langOptionEn: "Language: English",
         langOptionHi: "भाषा: हिंदी",
-        langOptionMr: "ભાષા: મરાઠી",
-        langOptionTa: "મ૊ழિ: તમિલ",
+        langOptionMr: "भाषा: मराठी",
+        langOptionTa: "மொழி: தமிழ்",
         langOptionTe: "భాష: తెలుగు",
         langOptionGu: "ભાષા: ગુજરાતી",
-        helpRibbonText: "મદદ / રિપોર્ટ",
+        helpRibbonText: "મદત / નિવેદન",
         termsAndConditions: "શરતો અને શરતો",
         iAgreeToTc: "હું શરતો અને ગોપનીયતા નીતિને મંજૂરી આપું છું",
         accept: "સ્વીકારો",
@@ -1580,10 +1593,10 @@ const tcDocuments = {
         <p>हम आपके द्वारा हमें सीधे प्रदान की गई जानकारी एकत्र करते हैं, जैसे जब आप एक खाता बनाते हैं या हमारी सेवाओं का उपयोग करते हैं। हम इस जानकारी का उपयोग हमारी सेवाओं को प्रदान करने, बनाए रखने और बेहतर बनाने के लिए करते हैं। हम आपकी व्यक्तिगत जानकारी को आपकी सहमति के बिना तीसरे पक्षों के साथ साझा नहीं करते हैं, इस नीति में वर्णित के सिवा।</p>
 
         <h4>7. दायित्व सीमा</h4>
-        <p>Learn&Earn, सेवाओं के उपयोग से उत्पन्न या उससे जुड़े किसी भी अप्रत्यक्ष, आकस्मिक, विशेष, परिणामस्वरूप या दंडात्मक क्षति के लिए उत्तरदायी नहीं होगा, जिसमें लाभ, डेटा या उपयोग की हानि शामिल है।</p>
+        <p>Learn&Earn, सेवाओं के उपयोग से उत्पन्न या उससे जुड़े किसी भी अप्रत्यक्ष, आकस्मिक, विशेष, परिणामस्वरूप या दंडात्मक नुकसान के लिए उत्तरदायी नहीं होगा, जिसमें लाभ, डेटा या उपयोग की हानि शामिल है।</p>
 
         <h4>8. नियमों में परिवर्तन</h4>
-        <p>हम किसी भी समय इन नियमों को संशोधित करने का अधिकार सुरक्षित रखते हैं। इस तरह के किसी भी परिवर्तन के बाद सेवाओं का आपका निरंतर उपयोग नए नियमों की स्वीकृति को दर्शाता है।</p>
+        <p>हम किसी भी समय इन नियमों को संशोधित करने का अधिकार सुरक्षित रखते हैं। इस तरह के किसी परिवर्तन के बाद सेवाओं का आपका निरंतर उपयोग नए नियमों की स्वीकृति को दर्शाता है।</p>
 
         <h4>9. नियंत्रक कानून</h4>
         <p>ये नियम [आपका क्षेत्र] के कानूनों के अनुसार शासित और व्याख्या किए जाएंगे।</p>
@@ -1606,13 +1619,13 @@ const tcDocuments = {
         <p>तुम्ही कोणत्याही बेकायदेशीर उद्देशासाठी सेवांचा वापर करणार नाही किंवा कोणत्याही अवैध क्रियाकलापाचे काम करण्याची विनंती करणार नाही यासह तुम्ही सहमत आहात. तुम्ही कोणतीही सामग्री अपलोड, पोस्ट किंवा प्रसारित करणार नाही जी हानिकारक, अपमानकारक असेल किंवा इतरांच्या अधिकारांचे उल्लंघन करेल.</p>
 
         <h4>5. प्रकल्प आणि सबमिशन्स</h4>
-        <p>Learn&Earn एक बाजारपेठ म्हणून कार्य करते. आम्ही प्रकल्पांच्या किंवा सादरीकरणाच्या गुणवत्ता, सुरक्षा किंवा कायदेशीरतेची हमी देत नाही. वापरकर्ते त्यांचे स्वतःचे प्रकल्प आणि सादरीकरणासाठी एकमेव जबाबदार आहेत.</p>
+        <p>Learn&Earn एक बाजारपेठ म्हणून कार्य करते. आम्ही प्रकल्पांच्या किंवा सादरीकरणाच्या गुणवत्ता, सुरक्षा किंवा कायदेशीरतेची हमी देत नाही. वापरकर्ते त्यांच्या स्वतःच्या प्रकल्प आणि सादरीकरणासाठी एकमेव जबाबदार आहेत.</p>
 
         <h4>6. गोपनीयता धोरण</h4>
-        <p>आम्ही तुम्ही आम्हाला थेट प्रदान केलेली माहिती गोळा करतो, जसे की जेव्हा तुम्ही खाते तयार करता किंवा आमच्या सेवांचा वापर करता. आम्ही आमच्या सेवा प्रदान करण्यासाठी, टिकवण्यासाठी आणि सुधारण्यासाठी ही माहिती वापरतो. तुमची परवानगी न देता आम्ही तिसरे पक्षांसोबत तुमची वैयक्तिक माहिती सामायिक करत नाही, या धोरणात वर्णन केलेल्या वगळता.</p>
+        <p>आम्ही तुम्हाला थेट प्रदान केलेली माहिती गोळा करतो, जसे की जेव्हा तुम्ही खाते तयार करता किंवा आमच्या सेवांचा वापर करता. आम्ही आमच्या सेवा प्रदान करण्यासाठी, टिकवण्यासाठी आणि सुधारण्यासाठी ही माहिती वापरतो. तुमची परवानगी न देता आम्ही तिसरे पक्षांसोबत तुमची वैयक्तिक माहिती सामायिक करत नाही, या धोरणात वर्णन केलेल्या वगळता.</p>
 
         <h4>7. जबाबदारीची मर्यादा</h4>
-        <p>Learn&Earn, सेवांच्या वापरामुळे उद्भवणार्‍या किंवा त्याच्याशी संबंधित कोणत्याही अप्रत्यक्ष, अचानक, विशिष्ट, परिणामी किंवा दंडात्मक नुकसानासाठी जबाबदार राहणार नाही, ज्यामध्ये नफा, डेटा किंवा वापराचे नुकसान समाविष्ट आहे.</p>
+        <p>Learn&Earn, सेवांच्या वापरामुळे उद्भवणार्‍या किंवा त्याच्याशी संबंधित कोणत्याही अप्रत्यक्ष, अचानक, विशिष्ट, परिणामी किंवा दंडात्मक नुकसानासाठी जबाबदार राहणार नाही, ज्यामध्ये नफाऽ, डेटा किंवा वापराचे नुकसान समाविष्ट आहे.</p>
 
         <h4>8. अटींमध्ये बदल</h4>
         <p>आम्ही कोणत्याही वेळी ही अटी संपादित करण्याचा अधिकार आरक्षित ठेवतो. या प्रकारचे कोणतेही बदल झाल्यानंतर सेवांचा तुमचा सातत्याने वापर हे नवीन अटींच्या स्वीकृतीचे दर्शनी ठरते.</p>
@@ -1638,51 +1651,19 @@ const tcDocuments = {
         <p>எந்தவொரு சட்டவிரோத செயலுக்கும் சேவைகளைப் பயன்படுத்தவோ அல்லது எந்தவொரு சட்டவிரோத செயல்பாட்டையும் செய்யுமாறு நீங்கள் ஒப்புக்கொள்ளவில்லை. தீங்கு விளைவிக்கும், தொந்தரவு தரும் அல்லது மற்றவர்களின் உரிமைகளை மீறும் உள்ளடக்கத்தை பதிவேற்றவோ, இடுகையிடவோ அல்லது அனுப்பவோ மாட்டீர்கள்.</p>
 
         <h4>5. திட்டங்கள் மற்றும் சமர்ப்பிப்புகள்</h4>
-        <p>Learn&Earn ஒரு சந்தையாகச் செயல்படுகிறது. திட்டங்கள் அல்லது சமர்ப்பிப்புகளின் தரம், பாதுகாப்பு அல்லது சட்டத்தன்மையை நாங்கள் உத்தரவாதம் அளிக்கவில்லை. பயனர்கள் தங்கள் சொந்த திட்டங்கள் மற்றும் சமர்ப்பிப்புகளுக்கு மட்டுமே பொறுப்பு.</p>
+        <p>Learn&Earn ஒரு சந்தையாகச் செயல்படுகிறது. நாம் திட்டங்கள் அல்லது சமர்ப்பிப்புகளின் தரம், பாதுகாப்பு அல்லது சட்டத்தன்மையை உத்தரவாதம் அளிக்கவில்லை. வாடிக்கையாளர்கள் தங்கள் சொந்த திட்டங்கள் மற்றும் சமர்ப்பிப்புகளுக்கு மட்டுமே பொறுப்பு.</p>
 
         <h4>6. தனியுரிமைக் கொள்கை</h4>
-        <p>நீங்கள் நேரடியாக எங்களுக்கு வழங்கும் தகவல்களை நாங்கள் சேகரிக்கிறோம், உதாரணமாக கணக்கு உருவாக்கும்போது அல்லது எங்கள் சேவைகளைப் பயன்படுத்தும்போது. எங்கள் சேவைகளை வழங்க, பராமரிக்க மற்றும் மேம்படுத்த இத்தகவல்களைப் பயன்படுத்துகிறோம். இந்தக் கொள்கையில் விவரிக்கப்பட்டுள்ளதற்கு மாறாக, உங்கள் ஒப்புதல் இல்லாமல் உங்கள் தனிப்பட்ட தகவலை மூன்றாம் தரப்பினருடன் பகிர்ந்து கொள்ளமாட்டோம்.</p>
+        <p>நீங்கள் நேரடியாக எங்களுக்கு வழங்கும் தகவல்களை நாங்கள் சேகரிக்கிறோம், ஜென்மம் நீங்கள் கணக்கு உருவாக்கும் போது அல்லது எங்கள் சேவைகளைப் பயன்படுத்தும் போது. எங்கள் சேவைகளை வழங்க, பராமரிக்க மற்றும் மேம்படுத்த இந்த தகவல்களைப் பயன்படுத்துகிறோம். இந்தக் கொள்கையில் விவரிக்கப்பட்டவற்றுக்கு மாறாக, உங்கள் ஒப்புதல் இல்லாமல் உங்கள் தனிப்பட்ட தகவலை மூன்றாம் தரப்பினருடன் பகிர்ந்து கொள்ளமாட்டோம்.</p>
 
         <h4>7. பொறுப்பை வரம்பிடுதல்</h4>
-        <p>சேவைகளைப் பயன்படுத்துவதால் ஏற்படும் அல்லது அதனுடன் தொடர்புடைய எந்தவொரு மறுமூலம், தற்செயல், சிறப்பு, விளைவாக ஏற்படும் அல்லது தண்டனை வடிவ சேதங்களுக்கு Learn&Earn பொறுப்பேற்காது, இதில் இலாபம், தரவு அல்லது பயன்பாட்டின் இழப்பு ஆகியவை அடங்கும்.</p>
+        <p>சேவைகளைப் பயன்படுத்துவதால் ஏற்படும் அல்லது அதனுடன் தொடர்புடைய எந்தவொரு மறுமூலம், தற்செயல், சிறப்பு, விளைவாக ஏற்படும் அல்லது தண்டனை வடிவ சேதங்களுக்கு Learn&Earn பொறுப்பேற்காது, இதில் இலாபம், தரவுகள் அல்லது பயன்பாட்டின் இழப்பு அடங்கும்.</p>
 
         <h4>8. விதிமுறைகளில் மாற்றங்கள்</h4>
-        <p>எந்த நேரத்திலும் இந்த விதிமுறைகளை மாற்றும் உரிமையை நாங்கள் பேணி வருகிறோம். இதுபோன்ற எந்த மாற்றத்திற்குப் பின்னர் சேவைகளை நீங்கள் தொடர்ந்து பயன்படுத்துவது புதிய விதிமுறைகளை ஏற்றுக்கொள்வதாகும்.</p>
+        <p>எந்த நேரத்திலும் இந்த விதிமுறைகளை மாற்றும் உரிமையை நாங்கள் பெறுகிறோம். இதுபோன்ற எந்த மாற்றத்திற்குப் பின்னர் சேவைகளை நீங்கள் தொடர்ந்தால் புதிய விதிமுறைகளை ஏற்றுக்கொள்வதாகும்.</p>
 
         <h4>9. ஆட்சி செய்யும் சட்டம்</h4>
         <p>இந்த விதிமுறைகள் [உங்கள் பிராந்தியம்] சட்டங்களின் படி ஆட்சி செய்யப்படும் மற்றும் விளக்கப்படும்.</p>
-    `,
-    te: `
-        <h3>నిబంధనలు మరియు షరతులు మరియు గోప్యతా విధానం</h3>
-        <p><strong>అమలు తేదీ:</strong> నవంబర్ 16, 2025</p>
-        <p>Learn&Earn కి స్వాగతం. ఈ నిబంధనలు ("నిబంధనలు") Learn&Earn ("మేము", "మా") అందించే Learn&Earn ప్లాట్‌ఫారమ్, సంబంధిత సేవలు, లక్షణాలు, కంటెంట్ మరియు అనువర్తనాల ("సేవలు") ని ఉపయోగించడంపై మిమ్మల్ని బద్ధం చేస్తాయి.</p>
-
-        <h4>1. నిబంధనలను అంగీకరించడం</h4>
-        <p>సేవలను యాక్సెస్ చేయడం లేదా ఉపయోగించడం ద్వారా, మీరు ఈ నిబంధనలకు లోబడి ఉంటారని మీరు ఒప్పుకుంటారు. మీరు ఈ నిబంధనలతో అంగీకరించకపోతే, సేవలను యాక్సెస్ చేయడం లేదా ఉపయోగించడం మీకు వీలుకాదు.</p>
-
-        <h4>2. అర్హత</h4>
-        <p>ఈ ప్లాట్‌ఫారమ్‌ను ఉపయోగించడానికి మీ వయస్సు కనీసం 13 ఏళ్లు ఉండాలి. మీరు 18 ఏళ్ల లోపు ఉంటే, మీ తల్లిదండ్రుల లేదా సంరక్షకుల అనుమతి కావాలి.</p>
-
-        <h4>3. వినియోగదారు ఖాతాలు</h4>
-        <p>మీ ఖాతా మరియు పాస్‌వర్డ్ యొక్క గుప్తతను నిలబెట్టడం మీ బాధ్యత. మీ ఖాతా కింద జరిగే అన్ని కార్యకలాపాలకు బాధ్యత వహించడానికి మీరు ఒప్పుకుంటారు.</p>
-
-        <h4>4. వినియోగదారు ప్రవర్తన</h4>
-        <p>మీరు ఏదైనా అక్రమ ప్రయోజనం కోసం సేవలను ఉపయోగించకుండా ఉండాలి లేదా ఏదైనా అక్రమ కార్యకలాపాన్ని చేయమని మీరు ఒప్పుకుంటారు. హాని కలిగించే, అసభ్యకరమైన లేదా ఇతరుల హక్కులను ఉల్లంఘించే ఏదైనా కంటెంట్‌ను మీరు అప్‌లోడ్, పోస్ట్ లేదా ప్రసారం చేయకూడదు.</p>
-
-        <h4>5. ప్రాజెక్టులు మరియు సమర్పణలు</h4>
-        <p>Learn&Earn ఒక మార్కెట్‌ప్లేస్ లాగా పనిచేస్తుంది. ప్రాజెక్టుల లేదా సమర్పణల నాణ్యత, భద్రత లేదా చట్టబద్ధతను మేము హామీ ఇవ్వము. వినియోగదారులు వారి స్వంత ప్రాజెక్టులు మరియు సమర్పణలకు మాత్రమే బాధ్యత వహిస్తారు.</p>
-
-        <h4>6. గోప్యతా విధానం</h4>
-        <p>మీరు నేరుగా మాకు అందించే సమాచారాన్ని మేము సేకరిస్తాము, ఉదాహరణకు ఖాతా సృష్టించినప్పుడు లేదా మా సేవలను ఉపయోగించినప్పుడు. మా సేవలను అందించడానికి, నిర్వహించడానికి మరియు మెరుగుపరచడానికి ఈ సమాచారాన్ని ఉపయోగిస్తాము. ఈ విధానంలో వివరించిన వాటికి మినహాయింపుగా, మీ అనుమతి లేకుండా మీ వ్యక్తిగత సమాచారాన్ని మూడవ పార్టీలతో పంచుకోము.</p>
-
-        <h4>7. బాధ్యతను పరిమితం చేయడం</h4>
-        <p>సేవల ఉపయోగం వల్ల లేదా అందుకు సంబంధించి ఏర్పడే ఏదైనా పరోక్ష, అచటాన్న, ప్రత్యేక, పరిణామ లేదా శిక్షాత్మక నష్టాలకు Learn&Earn బాధ్యత వహించదు, దీనిలో లాభం, డేటా లేదా ఉపయోగం యొక్క నష్టం ఉంటుంది.</p>
-
-        <h4>8. నిబంధనలలో మార్పులు</h4>
-        <p>ఈ నిబంధనలను ఎప్పుడైనా సవరించుకునే హక్కును మేము పొందుతాము. ఈ విధంగా ఏర్పడే ఏదైనా మార్పుల తరువాత సేవలను మీరు కొనసాగించడం కొత్త నిబంధనలను అంగీకరిస్తుంది.</p>
-
-        <h4>9. ప్రభుత్వ చట్టం</h4>
-        <p>ఈ నిబంధనలు [మీ జిల్లా] చట్టాల ప్రకారం పాలించబడి, వ్యాఖ్యానించబడతాయి.</p>
     `,
     gu: `
         <h3>શરતો અને શરતો અને ગોપનીયતા નીતિ</h3>
@@ -1696,7 +1677,7 @@ const tcDocuments = {
         <p>આ પ્લેટફોર્મનો ઉપયોગ કરવા માટે તમારી ઉંમર ઓછામાં ઓછી 13 વર્ષ હોવી જોઈએ. જો તમે 18 વર્ષથી નાના હશો, તો તમને માતા-પિતા અથવા સંરક્ષકની મંજૂરીની જરૂર પડશે.</p>
 
         <h4>3. વપરાશકર્તા ખાતાં</h4>
-        <p>તમારું ખાતું અને પાસવર્ડની ગોપનીયતા જાળવવા માટે તમે જવાબદાર છો. તમારા ખાતા હેઠળ થનારી બધી પ્રવૃત્તિઓ માટે તમે જવાબદારી સ્વીકારો છો.</p>
+        <p>તમારા ખાતા અને પાસવર્ડની ગોપનીયતા જાળવવા માટે તમે જવાબદાર છો. તમારા ખાતા હેઠળ થનારી બધી પ્રવૃત્તિઓ માટે તમે જવાબદારી સ્વીકારો છો.</p>
 
         <h4>4. વપરાશકર્તા વર્તન</h4>
         <p>તમે કોઈ અયોગ્ય હેતુ માટે સેવાઓનો ઉપયોગ નહીં કરો અથવા કોઈ અયોગ્ય પ્રવૃત્તિના કાર્ય માટે સહમતિ આપશો નહીં. તમે કોઈ સામગ્રી અપલોડ, પોસ્ટ અથવા પ્રસારિત નહીં કરશો જે હાનિકારક, અપમાનજનક અથવા અન્યના અધિકારોનું ઉલ્લંઘન કરે છે.</p>
@@ -1705,16 +1686,16 @@ const tcDocuments = {
         <p>Learn&Earn એક માર્કેટપ્લેસ તરીકે કાર્ય કરે છે. અમે પ્રોજેક્ટ્સ અથવા સબમિશન્સની ગુણવત્તા, સુરક્ષા અથવા કાયદેસરતાની ખાતરી આપતા નથી. વપરાશકર્તાઓ તેમના પોતાના પ્રોજેક્ટ્સ અને સબમિશન્સ માટે ફક્ત જવાબદાર છે.</p>
 
         <h4>6. ગોપનીયતા નીતિ</h4>
-        <p>અમે તમે અમને સીધી રીતે આપેલી માહિતી એકત્રિત કરીએ છીએ, જેમ કે જ્યારે તમે ખાતું બનાવો છો અથવા અમારી સેવાઓનો ઉપયોગ કરો છો. અમે અમારી સેવાઓ પ્રદાન કરવા, જાળવવા અને સુધારવા માટે આ માહિતીનો ઉપયોગ કરીએ છીએ. આ નીતિમાં વર્ણવ્યા પ્રમાણે તમારી મંજૂરી વિના તમારી વ્યક્તિગત માહિતી ત્રીજા પક્ષો સાથે શેર કરીશું નહીં.</p>
+        <p>અમે તમે અમને સીધી રીતે આપેલી માહિતી એકત્રિત કરીએ છીએ, જેમ કે જ્યારે તમે ખાતું બનાવો છો અથવા અમારી સેવાઓનો ઉપયોગ કરો છો. અમે આ માહિતીનો ઉપયોગ અમારી સેવાઓ પ્રદાન કરવા, જાળવવા અને સુધારવા માટે કરીએ છીએ. આ નીતિમાં વર્ણવ્યા પ્રમાણે તમારી મંજૂરી વિના તમારી વ્યક્તિગત માહિતી ત્રીજા પક્ષો સાથે શેર કરીશું નહીં.</p>
 
         <h4>7. જવાબદારીની મર્યાદા</h4>
-        <p>Learn&Earn સેવાઓના ઉપયોગથી ઉદ્ભવતા અથવા તેના સંબંધમાં કોઈ પરોક્ષ, અચાનક, ખાસ, પરિણામે થયેલ અથવા શિક્ષાત્મક નુકસાન માટે જવાબદાર નહીં હોય, જેમાં નફો, માહિતી અથવા ઉપયોગનું નુકસાન સામેલ છે.</p>
+        <p>Learn&Earn સેવાઓના ઉપયોગથી ઉદ્ભવતા અથવા તેના સંબંધમાં કોઈ પરોક્ષ, અચાનક, વિશેષ, પરિણામે થયેલ અથવા શિક્ષાત્મક નુકસાન માટે જવાબદાર રહેશે નહીં, જેમાં નફા, ડેટા અથવા ઉપયોગનું નુકસાન સામેલ છે.</p>
 
         <h4>8. શરતોમાં ફેરફારો</h4>
-        <p>અમે કોઈપણ સમયે આ શરતો સુધારી શકીએ છીએ. આવા કોઈપણ ફેરફાર પછી સેવાઓનો તમારો ચાલુ ઉપયોગ નવી શરતોની સ્વીકૃતિ છે.</p>
+        <p>અમે કોઈપણ સમયે આ શરતો સંપાદિત કરવાની અધિકાર રાખીએ છીએ. આ પ્રકારના ફેરફારો પછી સેવાઓનો તમારો ચાલુ ઉપયોગ નવી શરતોની સ્વીકૃતિ દર્શાવે છે.</p>
 
         <h4>9. શાસક કાયદો</h4>
-        <p>આ શરતો [તમારું ક્ષેત્ર] ના કાયદાઓ દ્વારા શાસિત અને વ્યાખ્યાયિત કરવામાં આવશે.</p>
+        <p>આ શરતો [તમારા ક્ષેત્ર] ના કાયદાઓ દ્વારા શાસિત અને વ્યાખ્યાયિત કરવામાં આવશે.</p>
     `
 };
 
@@ -1917,7 +1898,7 @@ function setAuthedUI(user){
       return; // Stop here if T&C not accepted
   }
   // Check if student is illiterate
-  if (user.role === 'student' && user.profile?.student?.literacyStatus === 'illiterate') {
+  if (user.role === 'student' && user.profile?.student?.literacyStatus === 'without_skilled') {
       $('#illiterateModal').classList.add('show');
       // Temporarily hide main UI until tutorials are viewed
       document.querySelectorAll('.view, nav, footer').forEach(el => el.classList.add('hide'));
@@ -1970,7 +1951,7 @@ $('#doLogin').onclick = ()=>{
   if(!user.role){ show('role'); return; }
   setAuthedUI(user);
   // Note: The actual routing will happen after T&C or Illiterate check passes
-  // if (!user.acceptedTerms || (user.role === 'student' && user.profile?.student?.literacyStatus === 'illiterate')) {
+  // if (!user.acceptedTerms || (user.role === 'student' && user.profile?.student?.literacyStatus === 'without_skilled')) {
   //     // UI is already hidden in setAuthedUI
   // } else {
   //     routeByRole(user.role);
@@ -1988,7 +1969,7 @@ $('#goDash').onclick = ()=>{
       document.querySelectorAll('.view, nav, footer').forEach(el => el.classList.add('hide'));
       return;
   }
-  if (cur.role === 'student' && cur.profile?.student?.literacyStatus === 'illiterate') {
+  if (cur.role === 'student' && cur.profile?.student?.literacyStatus === 'without_skilled') {
       $('#illiterateModal').classList.add('show');
       document.querySelectorAll('.view, nav, footer').forEach(el => el.classList.add('hide'));
       renderTutorials();
@@ -2122,38 +2103,38 @@ function routeByRole(r){
 
 /* ===== COMPANY ===== */
 let currentChatProjectId = null;
-$$('#company .tab').forEach(t=>{
-  t.onclick = (e)=>{
-    if (e.currentTarget.disabled) return; // Check if disabled by profile check
-    const id = e.currentTarget.dataset.ctab;
-    $$('#company .tab').forEach(x=>x.classList.toggle('active', x===e.currentTarget));
-    ['c-post','c-projects','c-chat','c-leader','c-profile'].forEach(sec=>{
-      const el = $('#'+sec); el.classList.toggle('hide', sec!==id);
-      if(sec===id){ el.style.animation='pop .5s cubic-bezier(.2,.8,.2,1)'; setTimeout(()=>el.style.animation='',500); }
-    });
-    if(id==='c-projects') drawCompanyProjects();
-    if(id==='c-chat') {
-      if(currentChatProjectId) {
-        drawChat(currentChatProjectId);
-      } else {
-        $('#cChat').innerHTML = '<div class="muted" style="text-align:center;padding:20px;">Select a project from "My Projects" to start chatting</div>';
+{ // Company tabs: traditional loop + addEventListener for compatibility
+  const tabs = $$('#company .tab');
+  for (let i = 0; i < tabs.length; i++) {
+    const t = tabs[i];
+    t.addEventListener('click', function (e) {
+      if (this.disabled) return;
+      const id = this.dataset.ctab;
+      for (let j = 0; j < tabs.length; j++) tabs[j].classList.toggle('active', tabs[j] === this);
+      const secs = ['c-post','c-projects','c-chat','c-leader','c-profile'];
+      for (let k = 0; k < secs.length; k++) {
+        const sec = secs[k];
+        const el = $('#'+sec);
+        if (!el) continue;
+        el.classList.toggle('hide', sec !== id);
+        if (sec === id) { el.style.animation = 'pop .5s cubic-bezier(.2,.8,.2,1)'; setTimeout(function(){ el.style.animation = ''; }, 500); }
       }
-    }
-    if(id==='c-leader') {
-        // Check profile completion before drawing leaderboard
+      if (id === 'c-projects') drawCompanyProjects();
+      if (id === 'c-chat') {
+        if (currentChatProjectId) drawChat(currentChatProjectId);
+        else $('#cChat').innerHTML = '<div class="muted" style="text-align:center;padding:20px;">Select a project from "My Projects" to start chatting</div>';
+      }
+      if (id === 'c-leader') {
         const cur = store.get('current');
-        if (checkProfileCompletion(cur)) {
-            drawLeader('cLeader');
-        } else {
-            // Show error message inside the leaderboard section
-            const tbody = $('#cLeader tbody');
-            if (tbody) {
-                tbody.innerHTML = `<tr><td colspan="4"><div class="muted" style="text-align:center;padding:20px;">Complete your profile category to access this feature.</div></td></tr>`;
-            }
+        if (checkProfileCompletion(cur)) drawLeader('cLeader');
+        else {
+          const tbody = $('#cLeader tbody');
+          if (tbody) tbody.innerHTML = '<tr><td colspan="4"><div class="muted" style="text-align:center;padding:20px;">Complete your profile category to access this feature.</div></td></tr>';
         }
-    }
+      }
+    });
   }
-});
+}
 
 $('#publishBtn').onclick = ()=>{
   const title=$('#pTitle').value.trim();
@@ -2215,7 +2196,7 @@ $$('#student .tab').forEach(t=>{
     if (e.currentTarget.disabled) return; // Check if disabled by profile check
     const id = e.currentTarget.dataset.stab;
     $$('#student .tab').forEach(x=>x.classList.toggle('active', x===e.currentTarget));
-    ['s-browse','s-my','s-chat','s-leader','s-profile'].forEach(sec=>{
+    ['s-browse','s-my','s-courses','s-chat','s-leader','s-profile'].forEach(sec=>{
       const el = $('#'+sec); el.classList.toggle('hide', sec!==id);
       if(sec===id){ el.style.animation='pop .5s cubic-bezier(.2,.8,.2,1)'; setTimeout(()=>el.style.animation='',500); }
     });
@@ -2240,6 +2221,10 @@ $$('#student .tab').forEach(t=>{
                 tbody.innerHTML = `<tr><td colspan="4"><div class="muted" style="text-align:center;padding:20px;">Complete your profile category to access this feature.</div></td></tr>`;
             }
         }
+    }
+    if(id==='s-courses') {
+      // Draw courses section
+      drawCourses();
     }
   }
 });
@@ -2272,6 +2257,17 @@ function drawBrowse(){
   });
 }
 
+function drawCourses(){
+  const el = $('#s-courses');
+  if(!el) return;
+  // ensure the section is rendered with the Coming Soon message
+  el.innerHTML = `
+    <h2><svg class="icon"><use href="#ico-book"></use></svg> <span>Courses</span></h2>
+    <div class="divider"></div>
+    <div style="padding:40px;text-align:center;font-size:20px;font-weight:700;color:#6b5aa5">Coming Soon!!!</div>
+  `;
+}
+
 window.apply = (pid)=>{
   const cur = store.get('current'); if(!cur) return modal.classList.add('show');
   // Check profile completion before allowing apply
@@ -2290,8 +2286,6 @@ window.apply = (pid)=>{
   drawBrowse(); drawMyApps(); updateCounters();
 };
 
-/* ... rest of the original drawMyApps, submitProject, openStudentChat, etc. ... */
-
 /* Chat */
 function drawChat(projectId){
   const box = $('#cChat').offsetParent ? $('#cChat') : $('#sChat');
@@ -2308,6 +2302,70 @@ function drawChat(projectId){
   });
   box.scrollTop = box.scrollHeight;
 }
+
+// Open company chat for a given project (called from company project list)
+function openCompanyChat(projectId){
+  currentChatProjectId = projectId;
+  // Ensure company dashboard is shown and chat tab is active
+  show('company');
+  // activate the c-chat tab
+  const tabs = $$('#company .tab');
+  for(let i=0;i<tabs.length;i++){ const t=tabs[i]; if(t.dataset.ctab==='c-chat'){ t.classList.add('active'); t.click(); break; } }
+  // render chat
+  drawChat(projectId);
+}
+
+// Open student chat for a given project (called from student My Applications)
+function openStudentChat(projectId){
+  currentStudentChatProjectId = projectId;
+  show('student');
+  const tabs = $$('#student .tab');
+  for(let i=0;i<tabs.length;i++){ const t=tabs[i]; if(t.dataset.stab==='s-chat'){ t.classList.add('active'); t.click(); break; } }
+  drawChat(projectId);
+}
+
+// Draw student's applications (My Applications)
+function drawMyApps(){
+  const cur = store.get('current'); if(!cur) return;
+  const tbody = $('#sMy tbody'); if(!tbody) return;
+  const projects = store.get('projects',[]).filter(p=>p.applicants && p.applicants.includes(cur.id));
+  tbody.innerHTML = '';
+  if(projects.length===0){ tbody.innerHTML = `<tr><td colspan="4"><div class="muted" style="text-align:center;padding:20px;">No applications yet.</div></td></tr>`; return; }
+  projects.forEach(p=>{
+    const comp = (store.get('users',[]).find(u=>u.id===p.companyId)?.username) || 'Any';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.title}</td>
+      <td>${comp}</td>
+      <td class="status ${p.status==='Open'?'open':p.status==='In Progress'?'progress':'done'}">${p.status}</td>
+      <td><button class="btn" onclick="openStudentChat('${p.id}')">Chat</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Message send handlers for company and student
+if($('#cSend')) $('#cSend').addEventListener('click', ()=>{
+  const cur = store.get('current'); if(!cur) return alert('Please login to send messages');
+  const input = $('#cMsg'); if(!input) return;
+  const text = input.value.trim(); if(!text) return;
+  const projectId = currentChatProjectId; if(!projectId) return alert('Select a project to chat about');
+  const msgs = store.get('messages',[]);
+  msgs.push({id:uid(), projectId, from:cur.username || 'You', text, role: cur.role, ts: Date.now()});
+  store.set('messages', msgs);
+  input.value=''; drawChat(projectId);
+});
+
+if($('#sSend')) $('#sSend').addEventListener('click', ()=>{
+  const cur = store.get('current'); if(!cur) return alert('Please login to send messages');
+  const input = $('#sMsg'); if(!input) return;
+  const text = input.value.trim(); if(!text) return;
+  const projectId = currentStudentChatProjectId; if(!projectId) return alert('Select a project to chat about');
+  const msgs = store.get('messages',[]);
+  msgs.push({id:uid(), projectId, from:cur.username || 'You', text, role: cur.role, ts: Date.now()});
+  store.set('messages', msgs);
+  input.value=''; drawChat(projectId);
+});
 
 /* Leaderboard */
 function drawLeader(tableId){
@@ -2394,13 +2452,15 @@ function updateStudentStats(){
 
 /* Render dashboards */
 function renderCompany(){ 
-  $$('#company .tab')[4].click(); // Click the Company Profile tab (index 4)
+  const cProfileBtn = $$('#company .tab') && Array.from($$('#company .tab')).find(t=>t.dataset.ctab==='c-profile');
+  if(cProfileBtn) cProfileBtn.click();
   drawCompanyProjects(); 
   // Set default due date
   $('#pDue').value = todayPlus(5);
 }
 function renderStudent(){ 
-  $$('#student .tab')[4].click(); // Click the Student Profile tab (index 4)
+  const sProfileBtn = $$('#student .tab') && Array.from($$('#student .tab')).find(t=>t.dataset.stab==='s-profile');
+  if(sProfileBtn) sProfileBtn.click();
   drawBrowse(); 
   updateStudentStats(); 
 }
@@ -2511,10 +2571,26 @@ langSelector.onchange = (e) => {
     users.push({id:coId, username:'GreenTech', email:'co@demo', pass:'123', role:'company', xp:0, done:0, profile:{}, acceptedTerms: true, preferredLanguage: 'en'});
     users.push({id:stId, username:'Aarav Sharma', email:'st@demo', pass:'123', role:'student', xp:200, done:2, profile:{}, acceptedTerms: true, preferredLanguage: 'en'});
     store.set('users',users);
-    // Update project company IDs
-    const projects = store.get('projects',[]);
-    projects.forEach(p => p.companyId = coId);
+    // Seed demo projects
+    const projects = [
+      { id: uid(), title: 'Design Diwali Poster', cat: 'Design', budget: 700, due: todayPlus(7), desc: 'Create a colorful Diwali poster.', status: 'Open', companyId: coId, applicants: [] },
+      { id: uid(), title: 'Write Blog: Sustainable Tech', cat: 'Content', budget: 1200, due: todayPlus(10), desc: '500-800 word article on sustainable tech.', status: 'In Progress', companyId: coId, applicants: [stId] },
+      { id: uid(), title: 'Website Landing Page', cat: 'Web', budget: 2500, due: todayPlus(14), desc: 'Simple responsive landing page.', status: 'Done', companyId: coId, applicants: [] },
+      { id: uid(), title: 'Social Media Pack', cat: 'Design', budget: 900, due: todayPlus(6), desc: 'Create 5 social media images for campaign.', status: 'Open', companyId: coId, applicants: [] },
+      { id: uid(), title: 'Product Description (Ecom)', cat: 'Content', budget: 400, due: todayPlus(4), desc: 'Write 10 short product descriptions.', status: 'Open', companyId: coId, applicants: [] },
+      { id: uid(), title: 'Simple Data Entry Task', cat: 'Data Entry', budget: 300, due: todayPlus(3), desc: 'Convert provided list into spreadsheet.', status: 'Open', companyId: coId, applicants: [] },
+      { id: uid(), title: 'UX Review: Landing Page', cat: 'Research', budget: 1500, due: todayPlus(9), desc: 'Review landing page and suggest UX improvements.', status: 'Open', companyId: coId, applicants: [] }
+    ];
     store.set('projects', projects);
+    // Seed demo messages for the In Progress project
+    const messages = [
+      { id: uid(), projectId: projects[1].id, from: 'GreenTech', text: 'Hi Aarav, thanks for applying — can you start tomorrow?', role: 'company', ts: Date.now()-3600000 },
+      { id: uid(), projectId: projects[1].id, from: 'Aarav Sharma', text: 'Yes, I can start tomorrow. I will share a draft soon.', role: 'student', ts: Date.now()-1800000 }
+    ];
+    store.set('messages', messages);
+    // Seed a tutorial for illiterate/without_skilled flow
+    const tutorials = [ { id: uid(), title: 'Quick Start — Using Learn&Earn', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' } ];
+    store.set('tutorials', tutorials);
   }
   const cur = store.get('current');
   if(cur && cur.role){
@@ -2531,7 +2607,7 @@ langSelector.onchange = (e) => {
       }
       setAuthedUI(cur);
       // Only route if T&C are accepted and not illiterate
-      if (cur.acceptedTerms && !(cur.role === 'student' && cur.profile?.student?.literacyStatus === 'illiterate')) {
+      if (cur.acceptedTerms && !(cur.role === 'student' && cur.profile?.student?.literacyStatus === 'without_skilled')) {
           routeByRole(cur.role);
       }
   }
